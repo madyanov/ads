@@ -19,28 +19,28 @@ Simple dynamic array implementation.
 
 ```c
 // any pointer type, must be initialized with NULL
-int *vec = NULL;
+T *vec = NULL;
 
 // push value
-vec_push(vec, 100); // returns 1 on succes, 0 on fail
+int vec_push(T *vec, T); // returns 1 on succes, 0 on fail
 
 // get value at index, unsafe
-vec[0]; // 100
+T vec[0];
 
 // get last value, unsafe
-vec_last(vec); // 100
+T vec_last(T *vec);
 
 // get vector length, safe
-vec_len(vec); // 1
+uint64_t vec_len(T *vec);
 
 // get vector capacity, safe
-vec_cap(vec); // 1
+uint64_t vec_cap(T *vec);
 
 // pop last value, unsafe
-vec_pop(vec); // 100
+T vec_pop(T *vec);
 
 // free memory
-vec_free(vec); // now vec == NULL
+void vec_free(T *vec); // now vec == NULL
 ```
 
 ## Bit array (`bits.h`)
@@ -49,19 +49,17 @@ vec_free(vec); // now vec == NULL
 // allocate 1 million bits
 bits_t *bits = bits_new(1000000); // returns 1 on success, 0 on fail
 
-// set bit at index 3, unsafe
-bits_set(bits, 3);
+// set bit at index, unsafe
+void bits_set(bits_t *bits, uint64_t bit);
 
-// check bit at index 3, unsafe
-bits_test(bits, 3); // 1, returns 1 if bit set
+// check bit at index, unsafe
+int bits_test(bits_t *bits, uint64_t bit); // 1, returns 1 if bit set
 
-// clear bit at index 3, unsafe
-bits_clear(bits, 3);
-
-bits_test(bits, 3); // 0
+// clear bit at index, unsafe
+void bits_clear(bits_t *bits, uint64_t bit);
 
 // don't forget to free memory
-bits_free(bits);
+void bits_free(bits_t *bits);
 ```
 
 ## Todo
