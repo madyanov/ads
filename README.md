@@ -53,7 +53,7 @@ bits_t *bits = bits_new(1000000); // returns 1 on success, 0 on fail
 void bits_set(bits_t *bits, uint64_t bit);
 
 // check bit at index, unsafe
-int bits_test(bits_t *bits, uint64_t bit); // 1, returns 1 if bit set
+int bits_test(bits_t *bits, uint64_t bit); // returns 1 if bit set
 
 // clear bit at index, unsafe
 void bits_clear(bits_t *bits, uint64_t bit);
