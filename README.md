@@ -2,11 +2,13 @@
 
 Run tests:
 
-    $ cmake . && make && ./ads
-    -- Configuring done
-    -- Generating done
-    -- Build files have been written to: ...
-    ...
+```bash
+$ cmake . && make && ./ads
+-- Configuring done
+-- Generating done
+-- Build files have been written to: ...
+...
+```
 
 ## Vector (`vec.h`)
 
