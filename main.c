@@ -33,14 +33,13 @@ void vec_tests() {
 }
 
 void bits_tests() {
-    bits_t *bits = bits_new(1);
-    assert(bits->size == sizeof(int) * CHAR_BIT);
+    bits_t *bits = bits_new(1000);
     assert(bits_test(bits, 3) == 0);
 
-    assert(bits_set(bits, 3) == 1);
+    bits_set(bits, 3);
     assert(bits_test(bits, 3) == 1);
 
-    assert(bits_clear(bits, 3) == 1);
+    bits_clear(bits, 3);
     assert(bits_test(bits, 3) == 0);
 
     bits_free(bits);
