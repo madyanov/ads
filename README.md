@@ -52,10 +52,10 @@ bits_t *bits = bits_new(1000000); // returns 1 on success, 0 on fail
 // set bit at index 3, safe
 bits_set(bits, 3); // returns 1 on success, 0 on fail
 
-// check bit at index 3
+// check bit at index 3, safe
 bits_test(bits, 3); // 1, returns 1 if bit sat
 
-// clear bit at index 3
+// clear bit at index 3, safe
 bits_clear(bits, 3); // returns 1 on success, 0 on fail
 
 bits_test(bits, 3); // 0
