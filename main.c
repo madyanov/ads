@@ -24,6 +24,7 @@ void vec_tests() {
     assert(vec[0] == 100);
     assert(vec[1] == 200);
     assert(vec[2] == 300);
+    assert(vec_last(vec) == 300);
 
     vec_free(vec);
     assert(vec == NULL);
