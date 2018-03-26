@@ -63,3 +63,14 @@ bits_test(bits, 3); // 0
 // don't forget to free memory
 bits_free(bits);
 ```
+
+## Todo
+
+- [x] Dynamic array
+- [x] Bit array
+- [ ] Bloom filter
+- [ ] Doubly linked list
+- [ ] Hash table on buckets/lists
+- [ ] Hash table on search tree
+- [ ] Priority queue on heap
+- [ ] Trees & etc...
