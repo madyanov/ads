@@ -4,7 +4,7 @@ int vec_realloc(void **vec, size_t type_size) {
     vec_header_t *header = vec_header(*vec);
 
     if (*vec == NULL) {
-        header = (vec_header_t *)malloc(sizeof *header + type_size);
+        header = malloc(sizeof *header + type_size);
 
         if (header == NULL) {
             return 0;
@@ -18,7 +18,7 @@ int vec_realloc(void **vec, size_t type_size) {
         }
         
         size_t cap = header->cap * 2;
-        header = (vec_header_t *)realloc(header, sizeof *header + type_size * cap);
+        header = realloc(header, sizeof *header + type_size * cap);
 
         if (header == NULL) {
             return 0;
