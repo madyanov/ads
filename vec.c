@@ -1,26 +1,6 @@
 #include "vec.h"
 
-vec_header_t *vec_header(void *vec) {
-    return (vec_header_t *)((vec_header_t *)(vec) - 1);
-}
-
-size_t vec_cap(void *vec) {
-    if (vec == NULL) {
-        return 0;
-    }
-
-    return vec_header(vec)->cap;
-}
-
-size_t vec_len(void *vec) {
-    if (vec == NULL) {
-        return 0;
-    }
-
-    return vec_header(vec)->len;
-}
-
-int vec_expand(void **vec, size_t type_size) {
+int vec_realloc(void **vec, size_t type_size) {
     vec_header_t *header = vec_header(*vec);
 
     if (*vec == NULL) {
