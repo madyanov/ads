@@ -17,14 +17,14 @@ int vec_realloc(void **vec, size_t type_size) {
             return 1;
         }
         
-        size_t count = header->cap * 2;
-        header = (vec_header_t *)realloc(header, sizeof *header + type_size * count);
+        size_t cap = header->cap * 2;
+        header = (vec_header_t *)realloc(header, sizeof *header + type_size * cap);
 
         if (header == NULL) {
             return 0;
         }
 
-        header->cap = count;
+        header->cap = cap;
     }
 
     *vec = header + 1;
