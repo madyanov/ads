@@ -1,6 +1,4 @@
 #include "bits.h"
-#include <stdio.h>
-#include <string.h>
 
 int bits_int = sizeof(int) * CHAR_BIT;
 
