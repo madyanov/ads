@@ -53,7 +53,7 @@ bits_t *bits = bits_new(1000000); // returns 1 on success, 0 on fail
 bits_set(bits, 3);
 
 // check bit at index 3, unsafe
-bits_test(bits, 3); // 1, returns 1 if bit sat
+bits_test(bits, 3); // 1, returns 1 if bit set
 
 // clear bit at index 3, unsafe
 bits_clear(bits, 3);
