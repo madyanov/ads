@@ -1,7 +1,9 @@
 #include <stdlib.h>
 #include <assert.h>
+#include <limits.h>
 
 #include "vec.h"
+#include "bits.h"
 
 void vec_tests() {
     int *vec = NULL;
@@ -30,7 +32,22 @@ void vec_tests() {
     assert(vec == NULL);
 }
 
+void bits_tests() {
+    bits_t *bits = bits_new(1);
+    assert(bits->size == sizeof(int) * CHAR_BIT);
+    assert(bits_test(bits, 3) == 0);
+
+    assert(bits_set(bits, 3) == 1);
+    assert(bits_test(bits, 3) == 1);
+
+    assert(bits_clear(bits, 3) == 1);
+    assert(bits_test(bits, 3) == 0);
+
+    bits_free(bits);
+}
+
 int main() {
     vec_tests();
+    bits_tests();
     return 0;
 }

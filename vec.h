@@ -4,8 +4,8 @@
 #include <stdlib.h>
 
 typedef struct {
-    size_t cap;
-    size_t len;
+    uint64_t cap;
+    uint64_t len;
 } vec_header_t;
 
 #define vec_push(vec, val) \
@@ -22,15 +22,9 @@ typedef struct {
 #define vec_pop(vec) \
     ((vec)[--vec_header(vec)->len])
 
-#define vec_header(vec) \
-    ((vec_header_t *)(vec) - 1)
-
-#define vec_cap(vec) \
-    ((vec) != NULL ? vec_header(vec)->cap : 0)
-
-#define vec_len(vec) \
-    ((vec) != NULL ? vec_header(vec)->len : 0)
-
 int vec_realloc(void **vec, size_t type_size);
+uint64_t vec_cap(void *vec);
+uint64_t vec_len(void *vec);
+vec_header_t *vec_header(void *vec);
 
 #endif
