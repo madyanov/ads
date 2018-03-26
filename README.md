@@ -70,7 +70,7 @@ bits_free(bits);
 - [x] Bit array
 - [ ] Bloom filter
 - [ ] Doubly linked list
-- [ ] Hash table on buckets/lists
-- [ ] Hash table on search tree
-- [ ] Priority queue on heap
+- [ ] Hash table using buckets/lists
+- [ ] Hash table using search tree
+- [ ] Priority queue using heap
 - [ ] Trees & etc...
