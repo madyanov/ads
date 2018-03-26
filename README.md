@@ -47,7 +47,7 @@ void vec_free(T *vec); // now vec == NULL
 
 ```c
 // allocate 1 million bits
-bits_t *bits = bits_new(1000000); // returns 1 on success, 0 on fail
+bits_t *bits = bits_new(1000000); // returns NULL on fail
 
 // set bit at index, unsafe
 void bits_set(bits_t *bits, uint64_t bit);
