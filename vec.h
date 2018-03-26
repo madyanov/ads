@@ -17,7 +17,7 @@ typedef struct {
     (free(vec_header(vec)), (vec) = NULL)
     
 #define vec_last(vec) \
-    ((vec)[vec_header(vec)->len - 1])
+    ((vec)[vec_len(vec) - 1])
 
 #define vec_pop(vec) \
     ((vec)[--vec_header(vec)->len])
