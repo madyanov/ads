@@ -1,5 +1,5 @@
-#ifndef BLOOM_H
-#define BLOOM_H
+#ifndef BITS_H
+#define BITS_H
 
 #include <stdlib.h>
 #include <limits.h>
