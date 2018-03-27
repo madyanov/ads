@@ -63,7 +63,7 @@ void bits_clear(bits_t *bits, unsigned long bit);
 void bits_free(bits_t *bits);
 ```
 
-## Rabin-Karp string searching algorith (`rk.h`)
+## Rabin-Karp string searching algorithm (`rk.h`)
 
 Requires `vec.h`.
 
@@ -74,7 +74,7 @@ void rk_search(size_t **occs, char *text, char *patt);
 
 ```c
 size_t *occs = NULL; // vec.h
-rk_search(occs, "XZX", "X");
+rk_search(&occs, "XZX", "X");
 occs[0]; // 0
 occs[1]; // 2
 ```
