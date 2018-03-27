@@ -12,21 +12,21 @@ void rk_search(size_t **occs, char *text, char *patt) {
         return;
     }
 
-    long char_size = UCHAR_MAX + 1;
+    long char_max = UCHAR_MAX + 1;
     long prime = 103;
     long patt_h = 0;
     long text_h = 0;
     size_t i, j;
  
     for (i = 0; i < patt_l; i++) {
-        patt_h = (char_size * patt_h + patt[i]) % prime;
-        text_h = (char_size * text_h + text[i]) % prime;
+        patt_h = (char_max * patt_h + patt[i]) % prime;
+        text_h = (char_max * text_h + text[i]) % prime;
     }
 
     long pow = 1;
  
     for (i = 0; i < patt_l - 1; i++) {
-        pow = (char_size * pow) % prime;
+        pow = (char_max * pow) % prime;
     }
  
     for (i = 0; i <= text_l - patt_l; i++) {
@@ -43,7 +43,7 @@ void rk_search(size_t **occs, char *text, char *patt) {
         }
  
         if (i < text_l - patt_l) {
-            text_h = (char_size * (text_h - text[i] * pow) + text[i + patt_l]) % prime;
+            text_h = (char_max * (text_h - text[i] * pow) + text[i + patt_l]) % prime;
 
             if (text_h < 0) {
                 text_h += prime;
