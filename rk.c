@@ -1,6 +1,6 @@
 #include "rk.h"
 
-void rk_search(size_t **occs, char *text, char *patt) {
+void rk_search(size_t **occs, const char *text, const char *patt) {
     if (text == NULL || patt == NULL) {
         return;
     }
