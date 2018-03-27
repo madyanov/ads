@@ -1,10 +1,10 @@
 #include "vec.h"
 
-uint64_t vec_cap(void *vec) {
+unsigned long vec_cap(void *vec) {
     return vec != NULL ? vec_header(vec)->cap : 0;
 }
 
-uint64_t vec_len(void *vec) {
+unsigned long vec_len(void *vec) {
     return vec != NULL ? vec_header(vec)->len : 0;
 }
 
