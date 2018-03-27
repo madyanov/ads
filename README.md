@@ -63,11 +63,27 @@ void bits_clear(bits_t *bits, unsigned long bit);
 void bits_free(bits_t *bits);
 ```
 
+## Rabin-Karp string searching algorith (`rk.h`)
+
+Requires `vec.h`.
+
+```c
+// search occurrences of pattern in text
+void rk_search(size_t **occs, char *text, char *patt);
+```
+
+```c
+size_t *occs = NULL; // vec.h
+rk_search(occs, "XZX", "X");
+occs[0]; // 0
+occs[1]; // 2
+```
+
 ## Todo
 
 - [x] Dynamic array
 - [x] Bit array
-- [ ] Rabin–Karp algorithm
+- [x] Rabin–Karp algorithm
 - [ ] Bloom filter
 - [ ] Doubly linked list
 - [ ] Hash table using linked lists

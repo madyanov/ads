@@ -35,7 +35,7 @@ int vec_realloc(void **vec, size_t type_size) {
             return 1;
         }
         
-        uint64_t cap = header->cap * 2;
+        unsigned long cap = header->cap * 2;
         header = realloc(header, sizeof *header + type_size * cap);
 
         if (header == NULL) {

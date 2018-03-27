@@ -6,6 +6,7 @@
 
 #include "vec.h"
 #include "bits.h"
+#include "rk.h"
 
 void vec_tests() {
     int *vec = NULL;
@@ -63,8 +64,45 @@ void bits_tests() {
     bits_free(bits);
 }
 
+void rk_tests() {
+    char *text = "XXXXAXXXXB";
+    unsigned long prime = 453126437;
+
+    size_t *occs = NULL;
+
+    rk_search(&occs, text, "XXX");
+    assert(vec_len(occs) == 4);
+    assert(occs[0] == 0);
+    assert(occs[1] == 1);
+    assert(occs[2] == 5);
+    assert(occs[3] == 6);
+    vec_clear(occs);
+    
+    rk_search(&occs, text, "XXXXA");
+    assert(vec_len(occs) == 1);
+    assert(occs[0] == 0);
+    vec_clear(occs);
+    
+    rk_search(&occs, text, "XXXXB");
+    assert(vec_len(occs) == 1);
+    assert(occs[0] == 5);
+    vec_free(occs);
+    
+    rk_search(&occs, text, "XXXXAXXXXB");
+    assert(vec_len(occs) == 1);
+    assert(occs[0] == 0);
+    vec_clear(occs);
+    
+    rk_search(&occs, text, "CCC");
+    assert(vec_len(occs) == 0);
+    vec_clear(occs);
+
+    vec_free(occs);
+}
+
 int main() {
     vec_tests();
     bits_tests();
+    rk_tests();
     return 0;
 }
