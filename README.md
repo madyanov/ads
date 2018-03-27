@@ -5,8 +5,6 @@ Run tests:
 ```bash
 $ cmake . && make && ./ads
 -- Configuring done
--- Generating done
--- Build files have been written to: ...
 ...
 ```
 
@@ -21,8 +19,8 @@ Simple dynamic array implementation.
 // any pointer type, must be initialized with NULL
 T *vec = NULL;
 
-// push value
-int vec_push(T *vec, T); // returns 1 on succes, 0 on fail
+// push value, safe
+int vec_push(T *vec, T); // return 1 on success, 0 on fail
 
 // get value at index, unsafe
 T vec[0];
@@ -31,34 +29,37 @@ T vec[0];
 T vec_last(T *vec);
 
 // get vector length, safe
-uint64_t vec_len(T *vec);
+unsigned long vec_len(T *vec);
 
 // get vector capacity, safe
-uint64_t vec_cap(T *vec);
+unsigned long vec_cap(T *vec);
 
 // pop last value, unsafe
 T vec_pop(T *vec);
 
-// free memory
+// clear vector, safe
+void vec_clear(T *vec);
+
+// free memory, safe
 void vec_free(T *vec); // now vec == NULL
 ```
 
-## Bit array (`bits.h`)
+## Bit map (`bits.h`)
 
 ```c
 // allocate 1 million bits
-bits_t *bits = bits_new(1000000); // returns NULL on fail
+bits_t *bits = bits_new(1000000); // will return NULL if allocation failed
 
 // set bit at index, unsafe
-void bits_set(bits_t *bits, uint64_t bit);
+void bits_set(bits_t *bits, unsigned long bit);
 
 // check bit at index, unsafe
-int bits_test(bits_t *bits, uint64_t bit); // returns 1 if bit set
+int bits_test(bits_t *bits, unsigned long bit); // return 1 if bit set
 
 // clear bit at index, unsafe
-void bits_clear(bits_t *bits, uint64_t bit);
+void bits_clear(bits_t *bits, unsigned long bit);
 
-// don't forget to free memory
+// free memory, safe
 void bits_free(bits_t *bits);
 ```
 
@@ -66,11 +67,11 @@ void bits_free(bits_t *bits);
 
 - [x] Dynamic array
 - [x] Bit array
+- [ ] Rabin–Karp algorithm
 - [ ] Bloom filter
 - [ ] Doubly linked list
 - [ ] Hash table using linked lists
 - [ ] Hash table using search tree
 - [ ] Priority queue using heap
 - [ ] Trees & etc...
-- [ ] Rabin–Karp algorithm
 - [ ] Dijkstra's algorithm

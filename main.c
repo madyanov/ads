@@ -5,7 +5,6 @@
 
 #include "vec.h"
 #include "bits.h"
-#include "rk.h"
 
 void vec_tests() {
     int *vec = NULL;
@@ -47,25 +46,8 @@ void bits_tests() {
     bits_free(bits);
 }
 
-void rk_tests() {
-    char *text = "XXX";
-    unsigned long prime = 453126437;
-
-    size_t *occs = NULL;
-
-    rk_search(&occs, text, "XXX");
-
-    printf("%lu\n", vec_len(occs));
-    // printf("%zu\n", occs[0]);
-    // printf("%zu\n", occs[1]);
-    // printf("%zu\n", occs[2]);
-
-    vec_free(occs);
-}
-
 int main() {
     vec_tests();
     bits_tests();
-    rk_tests();
     return 0;
 }

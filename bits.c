@@ -11,7 +11,9 @@ bits_t *bits_new(unsigned long size) {
 }
 
 void bits_free(bits_t *bits) {
-    free(bits);
+    if (bits != NULL) {
+        free(bits);
+    }
 }
 
 void bits_set(bits_t *bits, unsigned long bit) {

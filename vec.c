@@ -12,6 +12,12 @@ vec_header_t *vec_header(void *vec) {
     return (vec_header_t *)(vec) - 1;
 }
 
+void vec_clear(void *vec) {
+    if (vec != NULL) {
+        vec_header(vec)->len = 0;
+    }
+}
+
 int vec_realloc(void **vec, size_t type_size) {
     vec_header_t *header = vec_header(*vec);
 
