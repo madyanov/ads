@@ -44,6 +44,21 @@ void vec_clear(T *vec);
 void vec_free(T *vec); // now vec == NULL
 ```
 
+```c
+char *str = NULL;
+
+vec_push(str, 'H');
+vec_push(str, 'e');
+vec_push(str, 'l');
+vec_push(str, 'l');
+vec_push(str, 'o');
+vec_push(str, '\0');
+
+assert(strcmp(str, "Hello") == 0);
+
+vec_free(str);
+```
+
 ## Bit map (`bits.h`)
 
 ```c
