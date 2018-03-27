@@ -8,7 +8,7 @@ typedef struct {
     unsigned long len;
 } vec_header_t;
 
-#define vec_min_cap 64
+#define vec_min_cap 32
 
 #define vec_push(vec, val) \
     (vec_realloc((void **)&(vec), sizeof(*(vec))) ? \
