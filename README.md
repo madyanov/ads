@@ -68,7 +68,9 @@ void bits_free(bits_t *bits);
 - [x] Bit array
 - [ ] Bloom filter
 - [ ] Doubly linked list
-- [ ] Hash table using buckets/lists
+- [ ] Hash table using linked lists
 - [ ] Hash table using search tree
 - [ ] Priority queue using heap
 - [ ] Trees & etc...
+- [ ] Rabin–Karp algorithm
+- [ ] Dijkstra's algorithm
