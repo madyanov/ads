@@ -1,15 +1,15 @@
 #include "rk.h"
 
-void rk_search(size_t **occs, const char *text, const char *patt) {
+size_t *rk_search(const char *text, const char *patt) {
     if (text == NULL || patt == NULL) {
-        return;
+        return NULL;
     }
 
     size_t patt_l = strlen(patt);
     size_t text_l = strlen(text);
 
     if (text_l < patt_l || text_l == 0 || patt_l == 0) {
-        return;
+        return NULL;
     }
 
     long char_max = UCHAR_MAX + 1;
@@ -28,6 +28,8 @@ void rk_search(size_t **occs, const char *text, const char *patt) {
     for (i = 0; i < patt_l - 1; i++) {
         pow = (char_max * pow) % prime;
     }
+
+    size_t *occs = NULL;
  
     for (i = 0; i <= text_l - patt_l; i++) {
         if (patt_h == text_h) {
@@ -38,7 +40,7 @@ void rk_search(size_t **occs, const char *text, const char *patt) {
             }
  
             if (j == patt_l) {
-                vec_push(*occs, i);
+                vec_push(occs, i);
             }
         }
  
@@ -50,4 +52,6 @@ void rk_search(size_t **occs, const char *text, const char *patt) {
             }
         }
     }
+
+    return occs;
 }

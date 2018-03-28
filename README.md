@@ -90,12 +90,11 @@ Requires `vec.h`.
 
 ```c
 // search occurrences of pattern in text
-void rk_search(size_t **occs, const char *text, const char *patt);
+size_t *rk_search(const char *text, const char *patt);
 ```
 
 ```c
-size_t *occs = NULL; // vec.h
-rk_search(&occs, "XZX", "X");
+size_t *occs = rk_search("XZX", "X");
 occs[0]; // 0
 occs[1]; // 2
 ```
