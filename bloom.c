@@ -1,7 +1,7 @@
 #include "bloom.h"
 
-bloom_t *bloom_new(size_t count, float fpp) {
-    if (count == 0 || fpp <= 0) {
+bloom_t *bloom_new(size_t size, float fpp) {
+    if (size == 0 || fpp <= 0) {
         return NULL;
     }
 
@@ -11,16 +11,16 @@ bloom_t *bloom_new(size_t count, float fpp) {
         return NULL;
     }
 
-    size_t size = count * -1.4427 * log2(fpp) + 1;
-    bits_t *bits = bits_new(size);
+    size_t nbits = size * -1.4427 * log2(fpp) + 1;
+    bits_t *bits = bits_new(nbits);
 
     if (bits == NULL) {
         return NULL;
     }
 
     bloom->bits = bits;
-    bloom->nbits = size;
-    bloom->nhashes = 0.6931 * size / count + 1;
+    bloom->nbits = nbits;
+    bloom->nhashes = 0.6931 * nbits / size + 1;
     return bloom;
 }
 
