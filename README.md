@@ -95,6 +95,7 @@ size_t *rk_search(const char *text, const char *patt); // will return NULL if ar
 
 ```c
 size_t *occs = rk_search("XZX", "X");
+vec_len(occs); // 2
 occs[0]; // 0
 occs[1]; // 2
 ```
