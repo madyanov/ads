@@ -7,6 +7,6 @@
 
 #include "vec.h"
 
-size_t *rk_search(const char *text, const char *patt);
+void rk_search(size_t **occs, const char *text, const char *patt);
 
 #endif

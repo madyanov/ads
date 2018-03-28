@@ -91,7 +91,7 @@ void rk_tests() {
 
     size_t *occs = NULL;
 
-    occs = rk_search(text, "XXX");
+    rk_search(&occs, text, "XXX");
     assert(vec_len(occs) == 4);
     assert(occs[0] == 0);
     assert(occs[1] == 1);
@@ -99,22 +99,22 @@ void rk_tests() {
     assert(occs[3] == 6);
     vec_clear(occs);
     
-    occs = rk_search(text, "XXXXA");
+    rk_search(&occs, text, "XXXXA");
     assert(vec_len(occs) == 1);
     assert(occs[0] == 0);
     vec_clear(occs);
     
-    occs = rk_search(text, "XXXXB");
+    rk_search(&occs, text, "XXXXB");
     assert(vec_len(occs) == 1);
     assert(occs[0] == 5);
     vec_free(occs);
     
-    occs = rk_search(text, "XXXXAXXXXB");
+    rk_search(&occs, text, "XXXXAXXXXB");
     assert(vec_len(occs) == 1);
     assert(occs[0] == 0);
     vec_clear(occs);
     
-    occs = rk_search(text, "CCC");
+    rk_search(&occs, text, "CCC");
     assert(vec_len(occs) == 0);
     vec_clear(occs);
 
