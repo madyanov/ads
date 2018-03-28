@@ -26,7 +26,10 @@ Simple dynamic array implementation.
 T *vec = NULL;
 
 // push value, safe
-int vec_push(T *vec, T); // return 1 on success, 0 on fail
+int vec_push(T *vec, T val); // return 1 on success, 0 on fail
+
+// push value, all elements up to `vec_cap` will be initialized with NULL
+int vec_push_zero(T *vec, T val);
 
 // get value at index, unsafe
 T vec[0];

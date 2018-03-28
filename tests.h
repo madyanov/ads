@@ -54,6 +54,23 @@ void vec_tests() {
     vec_push(str, '\0');
     assert(strcmp(str, "Hello") == 0);
     vec_free(str);
+
+    // int *z = NULL;
+    // vec_push_zero(z, 1);
+
+    // for (size_t i = 1; i < vec_min_cap; i++) {
+    //     assert(z[i] == 0);
+    //     vec_push_zero(z, 0);
+    // }
+
+    // vec_push_zero(z, 2);
+
+    // for (size_t i = vec_min_cap; i < vec_min_cap * 2; i++) {
+    //     printf("%d\n", z[i]);
+    //     assert(z[i] == 0);
+    // }
+
+    // vec_free(z);
 }
 
 void bits_tests() {
