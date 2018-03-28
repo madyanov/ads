@@ -25,12 +25,6 @@ size_t vec_cap(void *vec);
 size_t vec_len(void *vec);
 void vec_clear(void *vec);
 
-typedef enum {
-    NONE,
-    NULLIFY,
-    ZERO
-} vec_alloc_strat;
-
 typedef struct {
     size_t cap;
     size_t len;
