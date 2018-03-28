@@ -15,6 +15,7 @@ bloom_t *bloom_new(size_t size, float fpp) {
     bits_t *bits = bits_new(nbits);
 
     if (!bits) {
+        bloom_free(bloom);
         return NULL;
     }
 
