@@ -8,7 +8,7 @@ size_t *rk_search(const char *text, const char *patt) {
     size_t patt_l = strlen(patt);
     size_t text_l = strlen(text);
 
-    if (text_l < patt_l || text_l == 0 || patt_l == 0) {
+    if (text_l < patt_l || !text_l || !patt_l) {
         return NULL;
     }
 

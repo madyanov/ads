@@ -2,6 +2,7 @@
 #define VEC_H
 
 #include <stdlib.h>
+#include <string.h>
 
 typedef struct {
     size_t cap;
@@ -11,7 +12,10 @@ typedef struct {
 #define vec_min_cap 32
 
 #define vec_push(vec, val) \
-    (vec_resize((void **)&(vec), sizeof(*(vec))) ? \
+    (vec_push_size(vec, val, sizeof *(vec)))
+
+#define vec_push_size(vec, val, size) \
+    (vec_resize((void **)&(vec), (size)) ? \
     ((vec)[vec_header(vec)->len++] = (val), 1) \
     : 0)
 

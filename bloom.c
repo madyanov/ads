@@ -1,7 +1,7 @@
 #include "bloom.h"
 
 bloom_t *bloom_new(size_t size, float fpp) {
-    if (size == 0 || fpp <= 0) {
+    if (!size || fpp <= 0) {
         return NULL;
     }
 
@@ -45,7 +45,7 @@ int bloom_has(bloom_t *bloom, const void *key, size_t len) {
     for (size_t i = 0; i < bloom->nhashes; i++) {
         uint32_t hash = murmur3_hash32(key, len, i) % bloom->nbits;
         
-        if (bits_test(bloom->bits, hash) == 0) {
+        if (!bits_test(bloom->bits, hash)) {
             return 0;
         }
     }
