@@ -3,8 +3,7 @@
 #define rotl32(x, r) \
     (((x) << (r)) | ((x) >> (32 - (r))))
 
-uint32_t murmur3_hash32(const void *key, size_t len, uint32_t seed)
-{
+uint32_t murmur3_hash32(const void *key, size_t len, uint32_t seed) {
     const uint8_t *data = (const uint8_t *)key;
     const size_t nblocks = len >> 2;
 
@@ -15,7 +14,7 @@ uint32_t murmur3_hash32(const void *key, size_t len, uint32_t seed)
 
     const uint32_t *blocks = (const uint32_t *)(data + nblocks * 4);
 
-    for(size_t i = -nblocks; i != 0; i++) {
+    for (size_t i = -nblocks; i != 0; i++) {
         uint32_t k1 = blocks[i];
 
         k1 *= c1;
@@ -30,7 +29,7 @@ uint32_t murmur3_hash32(const void *key, size_t len, uint32_t seed)
     const uint8_t *tail = (const uint8_t  *)(data + nblocks * 4);
     uint32_t k1 = 0;
 
-    switch(len & 3) {
+    switch (len & 3) {
     case 3: k1 ^= tail[2] << 16;
     case 2: k1 ^= tail[1] << 8;
     case 1: k1 ^= tail[0];
