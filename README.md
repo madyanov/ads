@@ -26,9 +26,10 @@ Simple dynamic array implementation.
 T *vec = NULL;
 
 // push value, safe
+// value will have index `vec_len + 1`
 int vec_push(T *vec, T val); // return 1 on success, 0 on fail
 
-// push value, all elements up to `vec_cap` will be initialized with 0
+// push value, all values up to `vec_cap` will be initialized with 0
 int vec_push_zero(T *vec, T val);
 
 // get value at index, unsafe
@@ -38,10 +39,11 @@ T vec[0];
 T vec_last(T *vec);
 
 // get vector length, safe
+// returns index of the last pushed value
 size_t vec_len(T *vec);
 
 // get vector capacity, safe
-// you can safely acces and change vec[i % vec_cap] elements
+// you can safely access and change any value up to `vec_cap`
 size_t vec_cap(T *vec);
 
 // pop last value, unsafe
