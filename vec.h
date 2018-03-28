@@ -16,7 +16,7 @@ typedef struct {
     : 0)
 
 #define vec_free(vec) \
-    ((vec) != NULL ? (free(vec_header(vec)), (vec) = NULL) : 0)
+    (vec_free_((void **)&(vec)))
     
 #define vec_last(vec) \
     ((vec)[vec_len(vec) - 1])
@@ -24,10 +24,11 @@ typedef struct {
 #define vec_pop(vec) \
     ((vec)[--vec_header(vec)->len])
 
-int vec_resize(void **vec, size_t size);
+int vec_resize(void **vec, size_t type_size);
 size_t vec_cap(void *vec);
 size_t vec_len(void *vec);
 void vec_clear(void *vec);
 vec_header_t *vec_header(void *vec);
+void vec_free_(void **vec);
 
 #endif

@@ -9,8 +9,8 @@
 
 typedef struct {
     bits_t *bits;
-    size_t size;
-    size_t hashes;
+    size_t nbits;
+    size_t nhashes;
 } bloom_t;
 
 bloom_t *bloom_new(size_t count, float fpp);

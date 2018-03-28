@@ -11,6 +11,7 @@
 #include "bits.h"
 #include "rk.h"
 #include "bloom.h"
+// #include "map.h"
 
 void vec_tests() {
     int *vec = NULL;
@@ -106,8 +107,8 @@ void rk_tests() {
 
 void bloom_tests() {
     bloom_t *bloom = bloom_new(10, 0.1);
-    assert(bloom->size == 48);
-    assert(bloom->hashes == 4);
+    assert(bloom->nbits == 48);
+    assert(bloom->nhashes == 4);
 
     bloom_add(bloom, "a", 1);
     assert(bloom_has(bloom, "a", 1) == 1);
@@ -117,6 +118,10 @@ void bloom_tests() {
     assert(bloom_has(bloom, "c", 1) == 1);
 
     bloom_free(bloom);
+}
+
+void map_tests() {
+
 }
 
 #endif
