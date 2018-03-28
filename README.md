@@ -29,10 +29,10 @@ T vec[0];
 T vec_last(T *vec);
 
 // get vector length, safe
-unsigned long vec_len(T *vec);
+size_t vec_len(T *vec);
 
 // get vector capacity, safe
-unsigned long vec_cap(T *vec);
+size_t vec_cap(T *vec);
 
 // pop last value, unsafe
 T vec_pop(T *vec);
@@ -66,13 +66,13 @@ vec_free(str);
 bits_t *bits = bits_new(1000000); // will return NULL if allocation failed
 
 // set bit at index, unsafe
-void bits_set(bits_t *bits, unsigned long bit);
+void bits_set(bits_t *bits, size_t bit);
 
 // check bit at index, unsafe
-int bits_test(bits_t *bits, unsigned long bit); // return 1 if bit set
+int bits_test(bits_t *bits, size_t bit); // return 1 if bit set
 
 // clear bit at index, unsafe
-void bits_clear(bits_t *bits, unsigned long bit);
+void bits_clear(bits_t *bits, size_t bit);
 
 // free memory, safe
 void bits_free(bits_t *bits);

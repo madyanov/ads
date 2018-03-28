@@ -1,10 +1,10 @@
 #include "vec.h"
 
-unsigned long vec_cap(void *vec) {
+size_t vec_cap(void *vec) {
     return vec != NULL ? vec_header(vec)->cap : 0;
 }
 
-unsigned long vec_len(void *vec) {
+size_t vec_len(void *vec) {
     return vec != NULL ? vec_header(vec)->len : 0;
 }
 
@@ -18,11 +18,11 @@ void vec_clear(void *vec) {
     }
 }
 
-int vec_realloc(void **vec, size_t type_size) {
+int vec_realloc(void **vec, size_t size) {
     vec_header_t *header = vec_header(*vec);
 
     if (*vec == NULL) {
-        header = malloc(sizeof *header + type_size * vec_min_cap);
+        header = malloc(sizeof *header + size * vec_min_cap);
 
         if (header == NULL) {
             return 0;
@@ -35,8 +35,8 @@ int vec_realloc(void **vec, size_t type_size) {
             return 1;
         }
         
-        unsigned long cap = header->cap * 2;
-        header = realloc(header, sizeof *header + type_size * cap);
+        size_t cap = header->cap * 2;
+        header = realloc(header, sizeof *header + size * cap);
 
         if (header == NULL) {
             return 0;
