@@ -10,6 +10,7 @@
 #include "vec.h"
 #include "bits.h"
 #include "rk.h"
+#include "bloom.h"
 
 void vec_tests() {
     int *vec = NULL;
@@ -101,6 +102,21 @@ void rk_tests() {
     vec_clear(occs);
 
     vec_free(occs);
+}
+
+void bloom_tests() {
+    bloom_t *bloom = bloom_new(10, 0.1);
+    assert(bloom->size == 48);
+    assert(bloom->hashes == 4);
+
+    bloom_add(bloom, "a", 1);
+    assert(bloom_has(bloom, "a", 1) == 1);
+    assert(bloom_has(bloom, "b", 1) == 0);
+
+    bloom_add(bloom, "c", 1);
+    assert(bloom_has(bloom, "c", 1) == 1);
+
+    bloom_free(bloom);
 }
 
 #endif

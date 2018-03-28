@@ -39,7 +39,6 @@ int vec_realloc(void **vec, size_t size) {
         void *new_header = realloc(header, sizeof *header + size * cap);
 
         if (new_header == NULL) {
-            free(header);
             return 0;
         }
 

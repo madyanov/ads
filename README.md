@@ -94,12 +94,45 @@ occs[0]; // 0
 occs[1]; // 2
 ```
 
+## Bloom filter (`bloom.h`)
+
+Requires `bits.h`, `murmur3.h`.
+
+```c
+// create bloom filter to store `count` elements
+// with false positive probability of `fpp`
+bloom_t *bloom_new(size_t count, float fpp);
+
+// add element `key` with length `len` to bloom filter, unsafe
+void bloom_add(bloom_t *bloom, const void *key, size_t len);
+
+// check if element `key` with length `len` exists in bloom filter, unsafe
+int bloom_has(bloom_t *bloom, const void *key, size_t len); // return 0 if NOT exists, 1 if EXISTS OR NOT EXISTS
+
+// free memory, safe
+void bloom_free(bloom_t *bloom);
+```
+
+```c
+bloom_t *bloom = bloom_new(10, 0.1);
+
+bloom_add(bloom, "a", 1);
+bloom_has(bloom, "a", 1); // 1
+
+bloom_add(bloom, "c", 1);
+bloom_has(bloom, "c", 1); // 1
+
+bloom_has(bloom, "b", 1); // 0
+
+bloom_free(bloom);
+```
+
 ## Todo
 
 - [x] Dynamic array
 - [x] Bit array
 - [x] Rabin–Karp algorithm
-- [ ] Bloom filter
+- [x] Bloom filter
 - [ ] Doubly linked list
 - [ ] Hash table using linked lists
 - [ ] Hash table using search tree
