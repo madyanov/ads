@@ -53,7 +53,9 @@ int vec_push_alloc_(void **vec, size_t tsize, int zero) {
         header = new_header;
         header->cap = cap;
 
-        memset((char *)(header + 1) + tsize * header->len, 0, tsize * (cap - header->len));
+        if (zero) {
+            memset((char *)(header + 1) + tsize * header->len, 0, tsize * (cap - header->len));
+        }
     }
 
     *vec = header + 1;
