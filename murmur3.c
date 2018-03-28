@@ -37,7 +37,7 @@ uint32_t murmur3_hash32(const void *key, size_t len, uint32_t seed) {
             k1 = rotl32(k1, 15);
             k1 *= c2;
             h1 ^= k1;
-    };
+    }
 
     h1 ^= len;
 
