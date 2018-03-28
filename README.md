@@ -1,12 +1,15 @@
 # Algorithms and Data Structures
 
-Run tests:
+* Functions marked as `unsafe` and called with invalid arguments may result UB, segfault, etc.
+* Run tests:
 
-```bash
-$ cmake . && make && ./ads
--- Configuring done
-...
-```
+    ```bash
+    $ cmake . && make && ./ads
+    ...
+    OK.
+    ```
+
+## Contents
 
 * [Vector](#vector-vech)
 * [Bit map](#bit-map-bitsh)
