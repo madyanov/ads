@@ -98,7 +98,7 @@ void bits_free(bits_t *bits);
 
 ## Rabin-Karp string searching algorithm (`rk.h`)
 
-Requires `vec.h`.
+Requires `vec.h`. **Don't forget to free result using `vec_free` function**.
 
 ```c
 // search occurrences of pattern in text
@@ -110,6 +110,7 @@ size_t *occs = rk_search("XZX", "X");
 vec_len(occs); // 2
 occs[0]; // 0
 occs[1]; // 2
+vec_free(occs);
 ```
 
 ## Bloom filter (`bloom.h`)
