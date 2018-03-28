@@ -18,7 +18,7 @@ void vec_clear(void *vec) {
     }
 }
 
-int vec_realloc(void **vec, size_t size) {
+int vec_resize(void **vec, size_t size) {
     vec_header_t *header = vec_header(*vec);
 
     if (*vec == NULL) {

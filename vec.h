@@ -11,7 +11,7 @@ typedef struct {
 #define vec_min_cap 32
 
 #define vec_push(vec, val) \
-    (vec_realloc((void **)&(vec), sizeof(*(vec))) ? \
+    (vec_resize((void **)&(vec), sizeof(*(vec))) ? \
     ((vec)[vec_header(vec)->len++] = (val), 1) \
     : 0)
 
@@ -24,7 +24,7 @@ typedef struct {
 #define vec_pop(vec) \
     ((vec)[--vec_header(vec)->len])
 
-int vec_realloc(void **vec, size_t size);
+int vec_resize(void **vec, size_t size);
 size_t vec_cap(void *vec);
 size_t vec_len(void *vec);
 void vec_clear(void *vec);
