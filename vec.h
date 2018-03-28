@@ -7,7 +7,10 @@
 #define vec_min_cap 32
 
 #define vec_push(vec, val) \
-    (vec_push_(vec, val, sizeof *(vec)))
+    (vec_push_(vec, val, sizeof *(vec), 0))
+
+#define vec_push_zero(vec, val) \
+    (vec_push_(vec, val, sizeof *(vec), 1))
 
 #define vec_free(vec) \
     (vec_free_((void **)&(vec)))
@@ -33,13 +36,13 @@ typedef struct {
     size_t len;
 } vec_header_t;
 
-#define vec_push_(vec, val, size) \
-    (vec_push_alloc_((void **)&(vec), (size)) ? \
+#define vec_push_(vec, val, size, zero) \
+    (vec_push_alloc_((void **)&(vec), (size), (zero)) ? \
     ((vec)[vec_header_(vec)->len++] = (val), 1) \
     : 0)
 
 vec_header_t *vec_header_(void *vec);
-int vec_push_alloc_(void **vec, size_t tsize);
+int vec_push_alloc_(void **vec, size_t tsize, int zero);
 void vec_free_(void **vec);
 
 #endif

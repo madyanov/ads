@@ -28,7 +28,7 @@ T *vec = NULL;
 // push value, safe
 int vec_push(T *vec, T val); // return 1 on success, 0 on fail
 
-// push value, all elements up to `vec_cap` will be initialized with NULL
+// push value, all elements up to `vec_cap` will be initialized with 0
 int vec_push_zero(T *vec, T val);
 
 // get value at index, unsafe
@@ -41,6 +41,7 @@ T vec_last(T *vec);
 size_t vec_len(T *vec);
 
 // get vector capacity, safe
+// you can safely acces and change vec[i % vec_cap] elements
 size_t vec_cap(T *vec);
 
 // pop last value, unsafe

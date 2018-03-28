@@ -20,11 +20,15 @@ vec_header_t *vec_header_(void *vec) {
     return (vec_header_t *)vec - 1;
 }
 
-int vec_push_alloc_(void **vec, size_t tsize) {
+int vec_push_alloc_(void **vec, size_t tsize, int zero) {
     vec_header_t *header = NULL;
 
     if (!*vec) {
-        header = malloc(sizeof(vec_header_t) + tsize * vec_min_cap);
+        if (!zero) {
+            header = malloc(sizeof(vec_header_t) + tsize * vec_min_cap);
+        } else {
+            header = calloc(1, sizeof(vec_header_t) + tsize * vec_min_cap);
+        }
 
         if (!header) {
             return 0;
@@ -48,6 +52,8 @@ int vec_push_alloc_(void **vec, size_t tsize) {
 
         header = new_header;
         header->cap = cap;
+
+        memset((char *)(header + 1) + tsize * header->len, 0, tsize * (cap - header->len));
     }
 
     *vec = header + 1;
