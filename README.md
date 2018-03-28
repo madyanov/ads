@@ -98,7 +98,7 @@ void bits_free(bits_t *bits);
 
 ## Rabin-Karp string searching algorithm (`rk.h`)
 
-Requires `vec.h`. **Don't forget to free result using `vec_free` function**.
+Requires `vec.h`. **Don't forget to free result with `vec_free` function**.
 
 ```c
 // search occurrences of pattern in text
