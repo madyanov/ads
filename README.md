@@ -26,7 +26,7 @@ Simple dynamic array implementation.
 T *vec = NULL;
 
 // push value, safe
-// value will have index `vec_len + 1`
+// value will have index `vec_len - 1`
 int vec_push(T *vec, T val); // return 1 on success, 0 on fail
 
 // push value, all values up to `vec_cap` will be initialized with 0
