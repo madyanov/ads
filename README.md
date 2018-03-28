@@ -8,6 +8,12 @@ $ cmake . && make && ./ads
 ...
 ```
 
+* [Vector](#vector-vech)
+* [Bit map](#bit-map-bitsh)
+* [Rabin-Karp algorithm](#rabin-karp-string-searching-algorithm-rkh)
+* [Bloom filter](#bloom-filter-bloomh)
+* [Todo](#todo)
+
 ## Vector (`vec.h`)
 
 Simple dynamic array implementation.
