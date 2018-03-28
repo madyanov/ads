@@ -11,7 +11,7 @@ bits_t *bits_new(size_t size) {
 }
 
 void bits_free(bits_t *bits) {
-    if (bits != NULL) {
+    if (bits) {
         free(bits);
     }
 }

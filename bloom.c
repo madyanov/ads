@@ -7,14 +7,14 @@ bloom_t *bloom_new(size_t size, float fpp) {
 
     bloom_t *bloom = malloc(sizeof(bloom_t));
 
-    if (bloom == NULL) {
+    if (!bloom) {
         return NULL;
     }
 
     size_t nbits = size * -1.4427 * log2(fpp) + 1;
     bits_t *bits = bits_new(nbits);
 
-    if (bits == NULL) {
+    if (!bits) {
         return NULL;
     }
 
@@ -25,8 +25,8 @@ bloom_t *bloom_new(size_t size, float fpp) {
 }
 
 void bloom_free(bloom_t *bloom) {
-    if (bloom != NULL) {
-        if (bloom->bits != NULL) {
+    if (bloom) {
+        if (bloom->bits) {
             free(bloom->bits);
         }
 

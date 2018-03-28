@@ -3,15 +3,15 @@
 #include <stdio.h>
 
 size_t vec_cap(void *vec) {
-    return vec != NULL ? vec_header_(vec)->cap : 0;
+    return vec ? vec_header_(vec)->cap : 0;
 }
 
 size_t vec_len(void *vec) {
-    return vec != NULL ? vec_header_(vec)->len : 0;
+    return vec ? vec_header_(vec)->len : 0;
 }
 
 void vec_clear(void *vec) {
-    if (vec != NULL) {
+    if (vec) {
         vec_header_(vec)->len = 0;
     }
 }
@@ -23,10 +23,10 @@ vec_header_t *vec_header_(void *vec) {
 int vec_push_alloc_(void **vec, size_t tsize) {
     vec_header_t *header = NULL;
 
-    if (*vec == NULL) {
+    if (!*vec) {
         header = malloc(sizeof(vec_header_t) + tsize * vec_min_cap);
 
-        if (header == NULL) {
+        if (!header) {
             return 0;
         }
 
@@ -42,7 +42,7 @@ int vec_push_alloc_(void **vec, size_t tsize) {
         size_t cap = header->cap << 1;
         void *new_header = realloc(header, sizeof(vec_header_t) + tsize * cap);
 
-        if (new_header == NULL) {
+        if (!new_header) {
             return 0;
         }
 
@@ -55,7 +55,7 @@ int vec_push_alloc_(void **vec, size_t tsize) {
 }
 
 void vec_free_(void **vec) {
-    if (*vec != NULL) {
+    if (*vec) {
         free(vec_header_(*vec));
         *vec = NULL;
     }

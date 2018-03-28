@@ -1,7 +1,7 @@
 #include "rk.h"
 
 size_t *rk_search(const char *text, const char *patt) {
-    if (text == NULL || patt == NULL) {
+    if (!text || !patt) {
         return NULL;
     }
 
