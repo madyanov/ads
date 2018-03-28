@@ -90,7 +90,7 @@ Requires `vec.h`.
 
 ```c
 // search occurrences of pattern in text
-size_t *rk_search(const char *text, const char *patt);
+size_t *rk_search(const char *text, const char *patt); // will return NULL if arguments are invalid
 ```
 
 ```c
