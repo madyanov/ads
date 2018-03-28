@@ -50,6 +50,7 @@ size_t vec_cap(T *vec);
 T vec_pop(T *vec);
 
 // clear vector, safe
+// just sets vector length to 0
 void vec_clear(T *vec);
 
 // free memory, safe
@@ -73,6 +74,8 @@ vec_free(str);
 
 ## Bit map (`bits.h`)
 
+Simple bit map **without bounds checking**.
+
 ```c
 // allocate 1 million bits
 bits_t *bits = bits_new(1000000); // will return NULL if allocation failed
@@ -80,7 +83,7 @@ bits_t *bits = bits_new(1000000); // will return NULL if allocation failed
 // set bit at index, unsafe
 void bits_set(bits_t *bits, size_t bit);
 
-// check bit at index, unsafe
+// test bit at index, unsafe
 int bits_test(bits_t *bits, size_t bit); // return 1 if bit set
 
 // clear bit at index, unsafe
