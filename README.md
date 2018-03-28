@@ -113,7 +113,7 @@ bloom_t *bloom_new(size_t count, float fpp);
 void bloom_add(bloom_t *bloom, const void *key, size_t len);
 
 // check if element `key` with length `len` exists in bloom filter, unsafe
-int bloom_has(bloom_t *bloom, const void *key, size_t len); // return 0 if NOT exists, 1 if EXISTS OR NOT EXISTS
+int bloom_has(bloom_t *bloom, const void *key, size_t len); // return 0 if NOT exists, 1 if EXISTS or NOT EXISTS
 
 // free memory, safe
 void bloom_free(bloom_t *bloom);
