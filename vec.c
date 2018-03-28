@@ -36,12 +36,14 @@ int vec_realloc(void **vec, size_t size) {
         }
         
         size_t cap = header->cap * 2;
-        header = realloc(header, sizeof *header + size * cap);
+        void *new_header = realloc(header, sizeof *header + size * cap);
 
-        if (header == NULL) {
+        if (new_header == NULL) {
+            free(header);
             return 0;
         }
 
+        header = new_header;
         header->cap = cap;
     }
 
