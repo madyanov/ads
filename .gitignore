@@ -4,3 +4,4 @@ Makefile
 cmake_install.cmake
 ads
 .vscode
+ads.dSYM

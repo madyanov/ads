@@ -14,7 +14,7 @@
 // #include "map.h"
 
 void vec_tests() {
-    int *vec = NULL;
+    long long *vec = NULL;
     assert(vec_cap(vec) == 0);
     assert(vec_len(vec) == 0);
 
@@ -40,7 +40,7 @@ void vec_tests() {
         vec_push(vec, i);
     }
 
-    assert(vec_cap(vec) == vec_min_cap * 2);
+    assert(vec_cap(vec) == vec_min_cap << vec_resize_bits);
 
     vec_free(vec);
     assert(vec == NULL);
@@ -65,7 +65,7 @@ void vec_tests() {
 
     vec_push_zero(z, 2);
 
-    for (size_t i = vec_min_cap + 1; i < vec_min_cap * 2; i++) {
+    for (size_t i = vec_min_cap + 1; i < vec_min_cap << vec_resize_bits; i++) {
         assert(z[i] == 0);
     }
 

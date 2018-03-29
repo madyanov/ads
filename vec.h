@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#define vec_resize_bits 2
 #define vec_min_cap 32
 
 #define vec_push(vec, val) \

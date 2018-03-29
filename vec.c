@@ -43,7 +43,7 @@ int vec_push_alloc_(void **vec, size_t tsize, int zero) {
             return 1;
         }
         
-        size_t cap = header->cap << 1;
+        size_t cap = header->cap << vec_resize_bits;
         void *new_header = realloc(header, sizeof(vec_header_t) + tsize * cap);
 
         if (!new_header) {
