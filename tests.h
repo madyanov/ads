@@ -139,6 +139,8 @@ void bloom_tests() {
 void map_tests() {
     map_t(int) map;
     map_init(map);
+
+    map_set(map, "key", 100);
 }
 
 #endif

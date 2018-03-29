@@ -29,10 +29,9 @@ Simple dynamic array implementation.
 T *vec = NULL;
 
 // push value, safe
-// value will have index `vec_len - 1`
 int vec_push(T *vec, T val); // return 1 on success, 0 on fail
 
-// push value, all values up to `vec_cap` will be initialized with 0
+// push value and zero all values up to `vec_cap`
 int vec_push_zero(T *vec, T val);
 
 // get value at index, unsafe
@@ -42,18 +41,15 @@ T vec[0];
 T vec_last(T *vec);
 
 // get vector length, safe
-// returns index of the last pushed value
 size_t vec_len(T *vec);
 
 // get vector capacity, safe
-// you can safely access and change any value up to `vec_cap`
 size_t vec_cap(T *vec);
 
 // pop last value, unsafe
 T vec_pop(T *vec);
 
 // clear vector, safe
-// just sets vector length to 0
 void vec_clear(T *vec);
 
 // free memory, safe
@@ -80,7 +76,7 @@ vec_free(str);
 Simple bit map **without bounds checking**.
 
 ```c
-// allocate 1 million bits
+// allocate 1 million zero bits
 bits_t *bits = bits_new(1000000); // will return NULL if allocation failed
 
 // set bit at index, unsafe
@@ -106,7 +102,7 @@ void rk_search(size_t **occs, const char *text, const char *patt);
 ```
 
 ```c
-size_t *occs = NULL; // vec.h
+size_t *occs = NULL; // vector, must be initialized with NULL
 rk_search(&occs, "XZX", "X");
 vec_len(occs); // 2
 occs[0]; // 0
@@ -119,8 +115,7 @@ vec_free(occs);
 Requires `bits.h`, `murmur3.h`.
 
 ```c
-// create bloom filter to store `count` elements
-// with false positive probability of `fpp`
+// create bloom filter to store `count` elements with false positive probability `fpp`
 bloom_t *bloom_new(size_t count, float fpp);
 
 // add element `key` with length `len` to bloom filter, unsafe
