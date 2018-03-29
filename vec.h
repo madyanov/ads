@@ -14,15 +14,9 @@
     (vec_push_(vec, val, sizeof *(vec), 1))
 
 #define vec_init(vec) \
-    (vec_init_((void **)&(vec), sizeof *(vec), 0))
-
-#define vec_init_zero(vec) \
     (vec_init_((void **)&(vec), sizeof *(vec), 1))
 
 #define vec_resize(vec, cap) \
-    (vec_resize_((void **)&(vec), (cap), sizeof *(vec), 0))
-
-#define vec_resize_zero(vec, cap) \
     (vec_resize_((void **)&(vec), (cap), sizeof *(vec), 1))
 
 #define vec_free(vec) \

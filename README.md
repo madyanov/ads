@@ -31,7 +31,7 @@ T *vec = NULL;
 // push value, safe
 int vec_push(T *vec, T val); // return 1 on success, 0 on fail
 
-// push value and zero all values up to `vec_cap`
+// push value and zero all memory up to `vec_cap`
 int vec_push_zero(T *vec, T val);
 
 // get value at index, unsafe
@@ -51,6 +51,14 @@ T vec_pop(T *vec);
 
 // clear vector, safe
 void vec_clear(T *vec);
+
+// allocate zeroed memory for vector and sets capacity
+// usefull for operations with elements between `vec_len` and `vec_cap`
+int vec_init(T *vec); // return 1 on success, 0 on fail
+
+// change vector capacity
+// memory beyond `vec_len` will be zeroed
+int vec_resize(T *vec, size_t cap); // return 1 on success, 0 on fail
 
 // free memory, safe
 void vec_free(T *vec); // now vec == NULL
@@ -118,10 +126,10 @@ Requires `bits.h`, `murmur3.h`.
 // create bloom filter to store `count` elements with false positive probability `fpp`
 bloom_t *bloom_new(size_t count, float fpp);
 
-// add element `key` with length `len` to bloom filter, unsafe
+// add element to bloom filter, unsafe
 void bloom_add(bloom_t *bloom, const void *key, size_t len);
 
-// check if element `key` with length `len` exists in bloom filter, unsafe
+// check if element exists in bloom filter, unsafe
 int bloom_has(bloom_t *bloom, const void *key, size_t len); // return 0 if NOT exists, 1 if EXISTS or NOT EXISTS
 
 // free memory, safe

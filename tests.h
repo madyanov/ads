@@ -11,7 +11,7 @@
 #include "bits.h"
 #include "rk.h"
 #include "bloom.h"
-// #include "map.h"
+#include "map.h"
 
 typedef struct {
     int x;
