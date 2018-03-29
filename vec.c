@@ -1,7 +1,5 @@
 #include "vec.h"
 
-#include <stdio.h>
-
 size_t vec_cap(void *vec) {
     return vec ? vec_header_(vec)->cap : 0;
 }
