@@ -11,7 +11,17 @@
 #include "bits.h"
 #include "rk.h"
 #include "bloom.h"
-#include "map.h"
+// #include "map.h"
+
+typedef struct {
+    int x;
+    int y;
+} tests_point_t;
+
+void vec_test_struct(tests_point_t **points) {
+    tests_point_t p = { 10, 20 };
+    vec_push(*points, p);
+}
 
 void vec_tests() {
     long long *vec = NULL;
@@ -70,6 +80,19 @@ void vec_tests() {
     }
 
     vec_free(z);
+
+    char **strs = NULL;
+    vec_push(strs, "test");
+    assert(vec_len(strs) == 1);
+    assert(strs[0] == "test");
+    vec_free(strs);
+
+    tests_point_t *points = NULL;
+    vec_test_struct(&points);
+    assert(vec_len(points) == 1);
+    assert(points[0].x == 10);
+    assert(points[0].y == 20);
+    vec_free(points);
 }
 
 void bits_tests() {
@@ -137,10 +160,7 @@ void bloom_tests() {
 }
 
 void map_tests() {
-    map_t(int) map;
-    map_init(map);
 
-    map_set(map, "key", 100);
 }
 
 #endif

@@ -1,0 +1,4 @@
+--leak-check=full
+--show-reachable=yes
+--gen-suppressions=all
+--suppressions=./osx.supp
