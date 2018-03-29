@@ -1,7 +1,7 @@
 #include "bloom.h"
 
-bloom_t *bloom_new(size_t size, float fpp) {
-    if (!size || fpp <= 0) {
+bloom_t *bloom_new(size_t cap, float fpp) {
+    if (!cap || fpp <= 0) {
         return NULL;
     }
 
@@ -11,8 +11,8 @@ bloom_t *bloom_new(size_t size, float fpp) {
         return NULL;
     }
 
-    size_t nbits = size * -1.4427 * log2(fpp) + 1;
-    bits_t *bits = bits_new(nbits);
+    size_t size = cap * -1.4427 * log2(fpp) + 1;
+    bits_t *bits = bits_new(size);
 
     if (!bits) {
         bloom_free(bloom);
@@ -20,8 +20,8 @@ bloom_t *bloom_new(size_t size, float fpp) {
     }
 
     bloom->bits = bits;
-    bloom->nbits = nbits;
-    bloom->nhashes = 0.6931 * nbits / size + 1;
+    bloom->size = size;
+    bloom->hashes = 0.6931 * size / cap + 1;
     return bloom;
 }
 
@@ -38,15 +38,15 @@ void bloom_free(bloom_t *bloom) {
 }
 
 void bloom_add(bloom_t *bloom, const void *key, size_t len) {
-    for (size_t i = 0; i < bloom->nhashes; i++) {
-        uint32_t hash = murmur3_hash32(key, len, i) % bloom->nbits;
+    for (size_t i = 0; i < bloom->hashes; i++) {
+        uint32_t hash = murmur3_hash32(key, len, i) % bloom->size;
         bits_set(bloom->bits, hash);
     }
 }
 
 int bloom_has(bloom_t *bloom, const void *key, size_t len) {
-    for (size_t i = 0; i < bloom->nhashes; i++) {
-        uint32_t hash = murmur3_hash32(key, len, i) % bloom->nbits;
+    for (size_t i = 0; i < bloom->hashes; i++) {
+        uint32_t hash = murmur3_hash32(key, len, i) % bloom->size;
         
         if (!bits_test(bloom->bits, hash)) {
             return 0;

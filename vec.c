@@ -20,29 +20,8 @@ vec_head_t *vec_head_(void *vec) {
     return (vec_head_t *)vec - 1;
 }
 
-int vec_push_alloc_(void **vec, size_t tsize, int zero) {
-    if (*vec) {
-        vec_head_t *head = vec_head_(*vec);
-
-        if (head->len < head->cap) {
-            return 1;
-        }
-        
-        size_t cap = head->cap << vec_resize_bits;
-        return vec_resize_(vec, cap, tsize, zero);
-    }
-
-    return vec_init_(vec, tsize, zero);
-}
-
-int vec_init_(void **vec, size_t tsize, int zero) {
-    vec_head_t *head = NULL;
-
-    if (!zero) {
-        head = malloc(sizeof(vec_head_t) + tsize * vec_init_cap);
-    } else {
-        head = calloc(1, sizeof(vec_head_t) + tsize * vec_init_cap);
-    }
+int vec_init_(void **vec, size_t tsize) {
+    vec_head_t *head = malloc(sizeof(vec_head_t) + tsize * vec_init_cap);
 
     if (!head) {
         return 0;
@@ -55,7 +34,7 @@ int vec_init_(void **vec, size_t tsize, int zero) {
     return 1;
 }
 
-int vec_resize_(void **vec, size_t cap, size_t tsize, int zero) {
+int vec_resize_(void **vec, size_t cap, size_t tsize) {
     vec_head_t *head = vec_head_(*vec);
     void *new_head = realloc(head, sizeof(vec_head_t) + tsize * cap);
 
@@ -66,12 +45,23 @@ int vec_resize_(void **vec, size_t cap, size_t tsize, int zero) {
     head = new_head;
     head->cap = cap;
 
-    if (zero) {
-        memset((char *)(head + 1) + tsize * head->len, 0, tsize * (cap - head->len));
-    }
-
     *vec = head + 1;
     return 1;
+}
+
+int vec_push_alloc_(void **vec, size_t tsize) {
+    if (*vec) {
+        vec_head_t *head = vec_head_(*vec);
+
+        if (head->len < head->cap) {
+            return 1;
+        }
+        
+        size_t cap = head->cap << vec_resize_bits;
+        return vec_resize_(vec, cap, tsize);
+    }
+
+    return vec_init_(vec, tsize);
 }
 
 void vec_free_(void **vec) {

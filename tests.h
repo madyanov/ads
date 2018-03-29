@@ -65,22 +65,6 @@ void vec_tests() {
     assert(strcmp(str, "Hello") == 0);
     vec_free(str);
 
-    int *z = NULL;
-    vec_push_zero(z, 1);
-
-    for (size_t i = 1; i < vec_init_cap; i++) {
-        assert(z[i] == 0);
-        vec_push_zero(z, 0);
-    }
-
-    vec_push_zero(z, 2);
-
-    for (size_t i = vec_init_cap + 1; i < vec_init_cap << vec_resize_bits; i++) {
-        assert(z[i] == 0);
-    }
-
-    vec_free(z);
-
     char **strs = NULL;
     vec_push(strs, "test");
     assert(vec_len(strs) == 1);
@@ -146,8 +130,8 @@ void rk_tests() {
 
 void bloom_tests() {
     bloom_t *bloom = bloom_new(10, 0.1);
-    assert(bloom->nbits == 48);
-    assert(bloom->nhashes == 4);
+    assert(bloom->size == 48);
+    assert(bloom->hashes == 4);
 
     bloom_add(bloom, "a", 1);
     assert(bloom_has(bloom, "a", 1) == 1);
@@ -160,7 +144,10 @@ void bloom_tests() {
 }
 
 void map_tests() {
+    // map_t(int) map;
+    // map_init(map);
 
+    // map_set(map, "key", 10);
 }
 
 #endif
