@@ -11,9 +11,11 @@ bits_t *bits_new(size_t size) {
 }
 
 void bits_free(bits_t *bits) {
-    if (bits) {
-        free(bits);
+    if (!bits) {
+        return;
     }
+    
+    free(bits);
 }
 
 void bits_set(bits_t *bits, size_t bit) {

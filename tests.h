@@ -11,7 +11,7 @@
 #include "bits.h"
 #include "rk.h"
 #include "bloom.h"
-// #include "map.h"
+#include "map.h"
 
 void vec_tests() {
     long long *vec = NULL;
@@ -19,28 +19,28 @@ void vec_tests() {
     assert(vec_len(vec) == 0);
 
     assert(vec_push(vec, 100) == 1);
-    assert(vec_cap(vec) == vec_min_cap);
+    assert(vec_cap(vec) == vec_init_cap);
     assert(vec_len(vec) == 1);
 
     assert(vec_pop(vec) == 100);
-    assert(vec_cap(vec) == vec_min_cap);
+    assert(vec_cap(vec) == vec_init_cap);
     assert(vec_len(vec) == 0);
 
     assert(vec_push(vec, 100) == 1);
     assert(vec_push(vec, 200) == 1);
     assert(vec_push(vec, 300) == 1);
-    assert(vec_cap(vec) == vec_min_cap);
+    assert(vec_cap(vec) == vec_init_cap);
     assert(vec_len(vec) == 3);
     assert(vec[0] == 100);
     assert(vec[1] == 200);
     assert(vec[2] == 300);
     assert(vec_last(vec) == 300);
 
-    for (size_t i = 0; i < vec_min_cap; i++) {
+    for (size_t i = 0; i < vec_init_cap; i++) {
         vec_push(vec, i);
     }
 
-    assert(vec_cap(vec) == vec_min_cap << vec_resize_bits);
+    assert(vec_cap(vec) == vec_init_cap << vec_resize_bits);
 
     vec_free(vec);
     assert(vec == NULL);
@@ -58,14 +58,14 @@ void vec_tests() {
     int *z = NULL;
     vec_push_zero(z, 1);
 
-    for (size_t i = 1; i < vec_min_cap; i++) {
+    for (size_t i = 1; i < vec_init_cap; i++) {
         assert(z[i] == 0);
         vec_push_zero(z, 0);
     }
 
     vec_push_zero(z, 2);
 
-    for (size_t i = vec_min_cap + 1; i < vec_min_cap << vec_resize_bits; i++) {
+    for (size_t i = vec_init_cap + 1; i < vec_init_cap << vec_resize_bits; i++) {
         assert(z[i] == 0);
     }
 
@@ -137,7 +137,8 @@ void bloom_tests() {
 }
 
 void map_tests() {
-
+    map_t(int) map;
+    map_init(map);
 }
 
 #endif

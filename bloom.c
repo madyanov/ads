@@ -26,13 +26,15 @@ bloom_t *bloom_new(size_t size, float fpp) {
 }
 
 void bloom_free(bloom_t *bloom) {
-    if (bloom) {
-        if (bloom->bits) {
-            free(bloom->bits);
-        }
-
-        free(bloom);
+    if (!bloom) {
+        return;
     }
+
+    if (bloom->bits) {
+        free(bloom->bits);
+    }
+
+    free(bloom);
 }
 
 void bloom_add(bloom_t *bloom, const void *key, size_t len) {
