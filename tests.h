@@ -24,22 +24,21 @@ void vec_test_struct(tests_point_t **points) {
 }
 
 void vec_tests() {
-    long long *vec = NULL;
-    assert(vec_cap(vec) == 0);
+    long long *vec;
+    assert(vec_init(vec) == 1);
+
+    assert(vec_cap(vec) == vec_init_cap);
     assert(vec_len(vec) == 0);
 
     assert(vec_push(vec, 100) == 1);
-    assert(vec_cap(vec) == vec_init_cap);
     assert(vec_len(vec) == 1);
 
     assert(vec_pop(vec) == 100);
-    assert(vec_cap(vec) == vec_init_cap);
     assert(vec_len(vec) == 0);
 
     assert(vec_push(vec, 100) == 1);
     assert(vec_push(vec, 200) == 1);
     assert(vec_push(vec, 300) == 1);
-    assert(vec_cap(vec) == vec_init_cap);
     assert(vec_len(vec) == 3);
     assert(vec[0] == 100);
     assert(vec[1] == 200);
@@ -53,9 +52,10 @@ void vec_tests() {
     assert(vec_cap(vec) == vec_init_cap << vec_resize_bits);
 
     vec_free(vec);
-    assert(vec == NULL);
 
-    char *str = NULL;
+    char *str;
+    assert(vec_init(str) == 1);
+
     vec_push(str, 'H');
     vec_push(str, 'e');
     vec_push(str, 'l');
@@ -65,13 +65,17 @@ void vec_tests() {
     assert(strcmp(str, "Hello") == 0);
     vec_free(str);
 
-    char **strs = NULL;
+    char **strs;
+    assert(vec_init(strs) == 1);
+    
     vec_push(strs, "test");
     assert(vec_len(strs) == 1);
     assert(strs[0] == "test");
     vec_free(strs);
 
-    tests_point_t *points = NULL;
+    tests_point_t *points;
+    assert(vec_init(points) == 1);
+    
     vec_test_struct(&points);
     assert(vec_len(points) == 1);
     assert(points[0].x == 10);
@@ -96,7 +100,8 @@ void rk_tests() {
     char *text = "XXXXAXXXXB";
     unsigned long prime = 453126437;
 
-    size_t *occs = NULL;
+    size_t *occs;
+    vec_init(occs);
 
     rk_search(&occs, text, "XXX");
     assert(vec_len(occs) == 4);
@@ -114,7 +119,7 @@ void rk_tests() {
     rk_search(&occs, text, "XXXXB");
     assert(vec_len(occs) == 1);
     assert(occs[0] == 5);
-    vec_free(occs);
+    vec_clear(occs);
     
     rk_search(&occs, text, "XXXXAXXXXB");
     assert(vec_len(occs) == 1);
@@ -144,10 +149,7 @@ void bloom_tests() {
 }
 
 void map_tests() {
-    // map_t(int) map;
-    // map_init(map);
 
-    // map_set(map, "key", 10);
 }
 
 #endif

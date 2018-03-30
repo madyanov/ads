@@ -1,19 +1,23 @@
 #include "vec.h"
 
 size_t vec_cap(void *vec) {
-    return vec ? vec_head_(vec)->cap : 0;
+    return vec_head_(vec)->cap;
 }
 
 size_t vec_len(void *vec) {
-    return vec ? vec_head_(vec)->len : 0;
+    return vec_head_(vec)->len;
 }
 
 void vec_clear(void *vec) {
+    vec_head_(vec)->len = 0;
+}
+
+void vec_free(void *vec) {
     if (!vec) {
         return;
     }
-    
-    vec_head_(vec)->len = 0;
+
+    free(vec_head_(vec));
 }
 
 vec_head_t *vec_head_(void *vec) {
@@ -34,8 +38,14 @@ int vec_init_(void **vec, size_t tsize) {
     return 1;
 }
 
-int vec_resize_(void **vec, size_t cap, size_t tsize) {
+int vec_resize_(void **vec, size_t tsize) {
     vec_head_t *head = vec_head_(*vec);
+
+    if (head->len < head->cap) {
+        return 1;
+    }
+    
+    size_t cap = head->cap << vec_resize_bits;
     void *new_head = realloc(head, sizeof(vec_head_t) + tsize * cap);
 
     if (!new_head) {
@@ -47,28 +57,4 @@ int vec_resize_(void **vec, size_t cap, size_t tsize) {
 
     *vec = head + 1;
     return 1;
-}
-
-int vec_push_alloc_(void **vec, size_t tsize) {
-    if (*vec) {
-        vec_head_t *head = vec_head_(*vec);
-
-        if (head->len < head->cap) {
-            return 1;
-        }
-        
-        size_t cap = head->cap << vec_resize_bits;
-        return vec_resize_(vec, cap, tsize);
-    }
-
-    return vec_init_(vec, tsize);
-}
-
-void vec_free_(void **vec) {
-    if (!*vec) {
-        return;
-    }
-
-    free(vec_head_(*vec));
-    *vec = NULL;
 }

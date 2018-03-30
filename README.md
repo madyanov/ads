@@ -25,10 +25,13 @@ Simple dynamic array implementation.
 * Grows dynamically.
 
 ```c
-// any pointer type, must be initialized with NULL
-T *vec = NULL;
+// any pointer type
+T *vec;
 
-// push value, safe
+// initialize vector, safe
+int vec_init(vec); // return 1 on success, 0 on fail
+
+// push value, unsafe
 int vec_push(T *vec, T val); // return 1 on success, 0 on fail
 
 // get value at index, unsafe
@@ -37,24 +40,25 @@ T vec[0];
 // get last value, unsafe
 T vec_last(T *vec);
 
-// get vector length, safe
+// get vector length, unsafe
 size_t vec_len(T *vec);
 
-// get vector capacity, safe
+// get vector capacity, unsafe
 size_t vec_cap(T *vec);
 
 // pop last value, unsafe
 T vec_pop(T *vec);
 
-// clear vector, safe
+// clear vector, unsafe
 void vec_clear(T *vec);
 
-// free memory, safe
-void vec_free(T *vec); // now vec == NULL
+// free memory, unsafe
+void vec_free(T *vec);
 ```
 
 ```c
-char *str = NULL;
+char *str;
+vec_init(str);
 
 vec_push(str, 'H');
 vec_push(str, 'e');
@@ -94,16 +98,19 @@ void bits_free(bits_t *bits);
 Requires `vec.h`.
 
 ```c
-// search occurrences of pattern in text
+// search occurrences of pattern in text, occs must be initialized (`vec_init`)
 void rk_search(size_t **occs, const char *text, const char *patt);
 ```
 
 ```c
-size_t *occs = NULL; // vector, must be initialized with NULL
+size_t *occs;
+vec_init(occs);
+
 rk_search(&occs, "XZX", "X");
 vec_len(occs); // 2
 occs[0]; // 0
 occs[1]; // 2
+
 vec_free(occs);
 ```
 
