@@ -1,17 +1,17 @@
 # Algorithms and Data Structures
 
-* Functions marked as `unsafe` and called with invalid arguments may result UB, segfault, etc.
-* Run tests:
+Run tests:
 
-    ```bash
-    $ cmake . && make && ./ads
-    ...
-    OK.
-    ```
+```bash
+$ cmake . && make && ./ads
+...
+OK.
+```
 
 ## Contents
 
 * [Vector](#vector-vech)
+* [Linked list based hash map](#linked-list-based-hash-map-llmaph)
 * [Bit map](#bit-map-bitsh)
 * [Rabin-Karp algorithm](#rabin-karp-string-searching-algorithm-rkh)
 * [Bloom filter](#bloom-filter-bloomh)
@@ -28,31 +28,31 @@ Simple dynamic array implementation.
 // any pointer type
 T *vec;
 
-// initialize vector, safe
+// initialize vector
 int vec_init(vec); // return 1 on success, 0 on fail
 
-// push value, unsafe
+// push value
 int vec_push(T *vec, T val); // return 1 on success, 0 on fail
 
-// get value at index, unsafe
+// get value at index
 T vec[0];
 
-// get last value, unsafe
+// get last value
 T vec_last(T *vec);
 
-// get vector length, unsafe
+// get vector length
 size_t vec_len(T *vec);
 
-// get vector capacity, unsafe
+// get vector capacity
 size_t vec_cap(T *vec);
 
-// pop last value, unsafe
+// pop last value
 T vec_pop(T *vec);
 
-// clear vector, unsafe
+// clear vector
 void vec_clear(T *vec);
 
-// free memory, unsafe
+// free memory
 void vec_free(T *vec);
 ```
 
@@ -72,6 +72,51 @@ assert(strcmp(str, "Hello") == 0);
 vec_free(str);
 ```
 
+## Linked list based hash map (`llmap.h`)
+
+* Works with any data type.
+* Grows/shrinks dynamically.
+
+```c
+// define map with elements of type T
+llmap_t(T) map;
+
+// initialize map
+void *llmap_init(llmap_t(T) map); // will return NULL if failed
+
+// set value to the null-terminated key
+int llmap_set(llmap_t(T) map, char *key, void *val); // will return 0 if failed
+
+// get *pointer* to value in the map
+// pointer has type `T *ptr`
+void *llmap_get(llmap_t(T) map, char *key); // will return NULL if key not exists
+
+// delete element at key
+void llmap_del(llmap_t(T) map, char *key);
+
+// get map length (count of the elements)
+llmap_len(llmap_t(T) map);
+
+// get map capacity
+llmap_cap(llmap_t(T) map);
+
+// free memory
+llmap_free(llmap_t(T) map);
+```
+
+```c
+llmap_t(int) imap;
+llmap_init(imap);
+
+llmap_set(imap, "key1", 100);
+*llmap_get(imap, "key1"); // 100
+
+llmap_del(imap, "key1");
+llmap_get(imap, "key1"); // NULL
+
+llmap_free(imap);
+```
+
 ## Bit map (`bits.h`)
 
 Simple bit map **without bounds checking**.
@@ -80,16 +125,16 @@ Simple bit map **without bounds checking**.
 // allocate 1 million zero bits
 bits_t *bits = bits_new(1000000); // will return NULL if allocation failed
 
-// set bit at index, unsafe
-void bits_set(bits_t *bits, size_t bit);
+// set bit at index
+void bits_set(bits_t *bits, size_t idx);
 
-// test bit at index, unsafe
-int bits_test(bits_t *bits, size_t bit); // return 1 if bit set
+// test bit at index
+int bits_test(bits_t *bits, size_t idx); // return 1 if bit set
 
-// clear bit at index, unsafe
-void bits_clear(bits_t *bits, size_t bit);
+// clear bit at index
+void bits_clear(bits_t *bits, size_t idx);
 
-// free memory, safe
+// free memory
 void bits_free(bits_t *bits);
 ```
 
@@ -106,10 +151,10 @@ void rk_search(size_t **occs, const char *text, const char *patt);
 size_t *occs;
 vec_init(occs);
 
-rk_search(&occs, "XZX", "X");
+rk_search(&occs, "XZZX", "X");
 vec_len(occs); // 2
 occs[0]; // 0
-occs[1]; // 2
+occs[1]; // 3
 
 vec_free(occs);
 ```
@@ -122,13 +167,13 @@ Requires `bits.h`, `murmur3.h`.
 // create bloom filter to store `cap` elements with false positive probability `fpp`
 bloom_t *bloom_new(size_t cap, float fpp);
 
-// add element to bloom filter, unsafe
+// add element
 void bloom_add(bloom_t *bloom, const void *key, size_t len);
 
-// check if element exists in bloom filter, unsafe
+// check if element exists
 int bloom_has(bloom_t *bloom, const void *key, size_t len); // return 0 if NOT exists, 1 if EXISTS or NOT EXISTS
 
-// free memory, safe
+// free memory
 void bloom_free(bloom_t *bloom);
 ```
 
@@ -152,9 +197,7 @@ bloom_free(bloom);
 - [x] Bit array
 - [x] Rabin–Karp algorithm
 - [x] Bloom filter
-- [ ] Doubly linked list
-- [ ] Hash table using linked lists
+- [x] Hash table using linked lists
 - [ ] Hash table using search tree
 - [ ] Priority queue using heap
-- [ ] Trees & etc...
 - [ ] Dijkstra's algorithm

@@ -26,10 +26,6 @@ bloom_t *bloom_new(size_t cap, float fpp) {
 }
 
 void bloom_free(bloom_t *bloom) {
-    if (!bloom) {
-        return;
-    }
-
     if (bloom->bits) {
         free(bloom->bits);
     }

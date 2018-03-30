@@ -8,7 +8,7 @@ int main() {
     bits_tests();
     rk_tests();
     bloom_tests();
-    map_tests();
+    llmap_tests();
 
     printf("\nOK.\n");
     return 0;

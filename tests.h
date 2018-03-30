@@ -11,7 +11,7 @@
 #include "bits.h"
 #include "rk.h"
 #include "bloom.h"
-// #include "map.h"
+#include "llmap.h"
 
 typedef struct {
     int x;
@@ -148,12 +148,54 @@ void bloom_tests() {
     bloom_free(bloom);
 }
 
-void map_tests() {
-    // map_t *map = map_new();
-    // int i = 10;
-    // int *ip = &i;
-    // map_set(map, "123", ip, sizeof(i));
-    // map_set(map, "123", ip, sizeof(i));
+void llmap_tests() {
+    llmap_t(int) imap;
+    llmap_init(imap);
+
+    assert(llmap_cap(imap) == llmap_init_cap);
+    assert(llmap_len(imap) == 0);
+
+    llmap_set(imap, "k1", 10);
+    llmap_set(imap, "k2", 20);
+    assert(llmap_len(imap) == 2);
+    assert(*llmap_get(imap, "k1") == 10);
+    assert(*llmap_get(imap, "k2") == 20);
+    assert(llmap_get(imap, "k3") == NULL);
+
+    llmap_set(imap, "k2", 30);
+    assert(llmap_len(imap) == 2);
+    assert(*llmap_get(imap, "k2") == 30);
+
+    llmap_del(imap, "k1");
+    llmap_del(imap, "k3");
+    assert(llmap_len(imap) == 1);
+    assert(llmap_get(imap, "k1") == NULL);
+    assert(*llmap_get(imap, "k2") == 30);
+    assert(llmap_get(imap, "k3") == NULL);
+
+    llmap_del(imap, "k2");
+
+    for (size_t i = 0; i < llmap_init_cap << llmap_resize_bits; i++) {
+        char key[100];
+        sprintf(key, "k%zu", i);
+        llmap_set(imap, key, i);
+        assert(*llmap_get(imap, key) == i);
+    }
+
+    assert(llmap_len(imap) == llmap_init_cap << llmap_resize_bits);
+    assert(llmap_cap(imap) == llmap_init_cap << llmap_resize_bits << llmap_resize_bits);
+
+    for (size_t i = 0; i < llmap_init_cap << llmap_resize_bits; i++) {
+        char key[100];
+        sprintf(key, "k%zu", i);
+        llmap_del(imap, key);
+        assert(llmap_get(imap, key) == NULL);
+    }
+
+    assert(llmap_len(imap) == 0);
+    assert(llmap_cap(imap) == llmap_init_cap);
+
+    llmap_free(imap);
 }
 
 #endif
