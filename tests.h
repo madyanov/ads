@@ -11,7 +11,7 @@
 #include "bits.h"
 #include "rk.h"
 #include "bloom.h"
-#include "map.h"
+// #include "map.h"
 
 typedef struct {
     int x;
@@ -149,7 +149,11 @@ void bloom_tests() {
 }
 
 void map_tests() {
-
+    // map_t *map = map_new();
+    // int i = 10;
+    // int *ip = &i;
+    // map_set(map, "123", ip, sizeof(i));
+    // map_set(map, "123", ip, sizeof(i));
 }
 
 #endif
