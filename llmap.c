@@ -32,12 +32,12 @@ llmap_node_t *llmap_node_new(const char *key, void *val, size_t vsize) {
     return node;
 }
 
-// ==========
-// map
-
 void llmap_node_free(llmap_node_t *node) {
     free(node);
 }
+
+// ==========
+// map
 
 llmap_t *llmap_new() {
     llmap_t *map = calloc(1, sizeof(llmap_t) + sizeof(llmap_node_t *) * llmap_init_cap);
@@ -84,6 +84,7 @@ void llmap_add_node(llmap_t *map, llmap_node_t *node) {
 llmap_t *llmap_resize(llmap_t *map) {
     size_t cap = 0;
 
+    // grow, shrink or do nothing
     if (map->len >= map->cap * llmap_load_factor) {
         cap = map->cap << llmap_resize_bits;
     } else if (map->cap > llmap_init_cap && map->len <= map->cap * llmap_load_factor / (1 << llmap_resize_bits)) {
