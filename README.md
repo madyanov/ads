@@ -127,7 +127,6 @@ llmap_set(imap, "key1", 100);
 llmap_del(imap, "key1");
 llmap_get(imap, "key1"); // NULL
 
-
 // iterator
 llmap_iter_init(imap);
 llmap_node_t *node;
