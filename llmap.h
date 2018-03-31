@@ -30,7 +30,7 @@
     (llmap_free_((map).m))
 
 #define llmap_cap(map) \
-    ((map).m->cap)//
+    ((map).m->cap)
 
 #define llmap_len(map) \
     ((map).m->len)
