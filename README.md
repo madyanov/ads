@@ -45,9 +45,6 @@ T vec_last(T *vec);
 // get vector length
 size_t vec_len(T *vec);
 
-// get vector capacity
-size_t vec_cap(T *vec);
-
 // pop last value
 T vec_pop(T *vec);
 
@@ -97,9 +94,6 @@ void llmap_del(llmap_t(T) map, char *key);
 
 // get map length (count of the elements)
 llmap_len(llmap_t(T) map);
-
-// get map capacity
-llmap_cap(llmap_t(T) map);
 
 // free memory
 llmap_free(llmap_t(T) map);
