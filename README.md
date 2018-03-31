@@ -5,8 +5,6 @@ Run:
 ```bash
 $ git clone git@github.com:madyanov/ads.git
 $ cmake . && make && ./ads
-$ valgrind ./ads
-$ cppcheck .
 ...
 ```
 
