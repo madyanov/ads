@@ -103,9 +103,9 @@ void llmap_iter_init(llmap_t(T) map);
 llmap_node_t *llmap_iter_next(llmap_t(T) map); // will return NULL if no more elements available
 
 // get node key
-char *llmap_node_key(llmap_node_t *node);
+node->key; // char *
 
-// return *pointer* to node value
+// get *pointer* to node value
 T *llmap_node_val(llmap_t(T) map, llmap_node_t *node);
 ```
 
@@ -124,7 +124,7 @@ llmap_iter_init(imap);
 llmap_node_t *node;
 
 while ((node = llmap_iter_next(imap))) {
-    char *key = llmap_node_key(node);
+    char *key = node->key;
     int val = *llmap_node_val(imap, node);
 }
 

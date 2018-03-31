@@ -47,6 +47,7 @@
 typedef struct llmap_node_t {
     struct llmap_node_t *next;
     uint32_t hash;
+    char key[];
 } llmap_node_t;
 
 typedef struct {
@@ -60,7 +61,6 @@ typedef struct {
 } llmap_iter_t;
 
 llmap_t *llmap_new();
-char *llmap_node_key(llmap_node_t *node);
 
 int llmap_set_(llmap_t **map, const char *key, void *val, size_t vsize);
 void *llmap_get_(llmap_t *map, const char *key);

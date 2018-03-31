@@ -43,13 +43,8 @@ uint32_t llmap_hash(const char *key) {
     return murmur3_hash32(key, strlen(key), 0);
 }
 
-char *llmap_node_key(llmap_node_t *node) {
-    return (char *)(node + 1);
-}
-
 void *llmap_node_val_(llmap_node_t *node, size_t klen) {
-    char *key = llmap_node_key(node);
-    return key + (klen ? klen : (strlen(key) + 1));
+    return node->key + (klen ? klen : (strlen(node->key) + 1));
 }
 
 llmap_node_t *llmap_node_new(const char *key, void *val, size_t vsize) {
@@ -60,7 +55,7 @@ llmap_node_t *llmap_node_new(const char *key, void *val, size_t vsize) {
         return NULL;
     }
 
-    memcpy(llmap_node_key(node), key, klen);
+    memcpy(node->key, key, klen);
     memcpy(llmap_node_val_(node, klen), val, vsize);
 
     node->next = NULL;
@@ -101,7 +96,7 @@ llmap_node_t **llmap_get_node(llmap_t *map, const char *key) {
     llmap_node_t **node = &llmap_buckets(map)[llmap_idx(map, hash)];
 
     while (*node) {
-        if ((*node)->hash == hash && strcmp(key, llmap_node_key(*node)) == 0) {
+        if ((*node)->hash == hash && strcmp(key, (*node)->key) == 0) {
             return node;
         }
 

@@ -195,9 +195,8 @@ void llmap_tests() {
     size_t i = 0;
     
     while ((node = llmap_iter_next(imap))) {
-        char *key = llmap_node_key(node);
         int val = *llmap_node_val(imap, node);
-        assert(*llmap_get(imap, key) == val);
+        assert(*llmap_get(imap, node->key) == val);
         i++;
     }
 
