@@ -48,15 +48,15 @@ void *llmap_node_val_(llmap_node_t *node, size_t klen) {
 }
 
 llmap_node_t *llmap_node_new(const char *key, void *val, size_t vsize) {
-    size_t klen = strlen(key);
-    llmap_node_t *node = malloc(sizeof(llmap_node_t) + klen + vsize);
+    size_t klen = strlen(key) + 1;
+    llmap_node_t *node = malloc(offsetof(llmap_node_t, key) + klen + vsize);
 
     if (!node) {
         return NULL;
     }
 
-    memcpy(node->key, key, klen + 1);
-    memcpy(llmap_node_val_(node, klen + 1), val, vsize);
+    memcpy(node->key, key, klen);
+    memcpy(llmap_node_val_(node, klen), val, vsize);
 
     node->next = NULL;
     node->hash = llmap_hash(key);
@@ -71,7 +71,7 @@ void llmap_node_free(llmap_node_t *node) {
 // map
 
 llmap_t *llmap_new() {
-    llmap_t *map = calloc(1, sizeof(llmap_t) + sizeof(llmap_node_t *) * (llmap_init_cap - 1));
+    llmap_t *map = calloc(1, offsetof(llmap_t, buckets) + sizeof(llmap_node_t *) * llmap_init_cap);
 
     if (!map) {
         return NULL;
@@ -133,7 +133,7 @@ llmap_t *llmap_resize(llmap_t *map) {
         }
     }
 
-    llmap_t *new_map = realloc(map, sizeof(llmap_t) + sizeof(llmap_node_t *) * (cap - 1));
+    llmap_t *new_map = realloc(map, offsetof(llmap_t, buckets) + sizeof(llmap_node_t *) * cap);
 
     if (!new_map) {
         return NULL;
