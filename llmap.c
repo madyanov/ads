@@ -1,5 +1,41 @@
 #include "llmap.h"
 
+// Why prime modulus? https://stackoverflow.com/a/1147232/1558529
+size_t primes[] = {
+    1,
+    2,
+    3,
+    7,
+    13,
+    31,
+    61,
+    127,
+    251,
+    509,
+    1021,
+    2039,
+    4093,
+    8191,
+    16381,
+    32749,
+    65521,
+    131071,
+    262139,
+    524287,
+    1048573,
+    2097143,
+    4194301,
+    8388593,
+    16777213,
+    33554393,
+    67108859,
+    134217689,
+    268435399,
+    536870909,
+    1073741789,
+    2147483647
+};
+
 // ==========
 // nodes
 
@@ -56,7 +92,8 @@ llmap_node_t **llmap_buckets(llmap_t *map) {
 }
 
 size_t llmap_idx(llmap_t *map, uint32_t hash) {
-    return hash % map->cap;
+    size_t prime = log2(map->cap);
+    return hash % primes[prime];
 }
 
 llmap_node_t **llmap_get_node(llmap_t *map, const char *key) {
@@ -87,7 +124,7 @@ llmap_t *llmap_resize(llmap_t *map) {
     // grow, shrink, or do nothing
     if (map->len >= map->cap * llmap_load_factor) {
         cap = map->cap << llmap_resize_bits;
-    } else if (map->cap > llmap_init_cap && map->len <= map->cap * llmap_load_factor / (1 << llmap_resize_bits)) {
+    } else if (map->cap > llmap_init_cap && map->len <= (map->cap << llmap_resize_bits) * llmap_load_factor) {
         cap = map->cap >> llmap_resize_bits;
     } else {
         return map;
