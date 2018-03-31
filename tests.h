@@ -180,15 +180,16 @@ void llmap_tests() {
     assert(llmap_iter_next(imap) == NULL);
     assert(llmap_iter_next(imap) == NULL);
 
-    for (size_t i = 0; i < llmap_init_cap << llmap_resize_bits; i++) {
+    // llmap_init_cap^2 based on Legendre's conjecture
+    for (size_t i = 0; i < pow(2, llmap_init_cap); i++) {
         char key[100];
         sprintf(key, "k%zu", i);
         llmap_set(imap, key, i);
         assert(*llmap_get(imap, key) == i);
     }
 
-    assert(llmap_len(imap) == llmap_init_cap << llmap_resize_bits);
-    assert(llmap_cap(imap) == llmap_init_cap << llmap_resize_bits << llmap_resize_bits);
+    assert(llmap_len(imap) == pow(2, llmap_init_cap));
+    assert(llmap_cap(imap) == llmap_init_cap + llmap_resize_bits);
 
     llmap_iter_init(imap);
     llmap_node_t *node = NULL;
@@ -202,7 +203,7 @@ void llmap_tests() {
 
     assert(llmap_len(imap) == i);
 
-    for (size_t i = 0; i < llmap_init_cap << llmap_resize_bits; i++) {
+    for (size_t i = 0; i < pow(2, llmap_init_cap); i++) {
         char key[100];
         sprintf(key, "k%zu", i);
         llmap_del(imap, key);
