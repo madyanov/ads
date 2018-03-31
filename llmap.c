@@ -1,6 +1,7 @@
 #include "llmap.h"
 
-// Why prime modulus? https://stackoverflow.com/a/1147232/1558529
+// Why prime modulus?
+// Answer: https://stackoverflow.com/a/1147232/1558529
 size_t primes[] = {
     1,
     2,
