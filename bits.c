@@ -1,6 +1,6 @@
 #include "bits.h"
 
-const long long_bits = sizeof(bits_t) * CHAR_BIT;
+static const long long_bits = sizeof(bits_t) * CHAR_BIT;
 
 bits_t *bits_new(size_t size) {
     if (size < long_bits) {
