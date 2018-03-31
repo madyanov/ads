@@ -90,8 +90,7 @@ void *llmap_init(llmap_t(T) map); // will return NULL if failed
 int llmap_set(llmap_t(T) map, char *key, void *val); // will return 0 if failed
 
 // get *pointer* to value in the map
-// pointer has type `T *ptr`
-void *llmap_get(llmap_t(T) map, char *key); // will return NULL if key not exists
+T *llmap_get(llmap_t(T) map, char *key); // will return NULL if key not exists
 
 // delete element at key
 void llmap_del(llmap_t(T) map, char *key);
@@ -104,6 +103,18 @@ llmap_cap(llmap_t(T) map);
 
 // free memory
 llmap_free(llmap_t(T) map);
+
+// initialize or reset iterator
+void llmap_iter_init(llmap_t(T) map);
+
+// get next map node
+llmap_node_t *llmap_iter_next(llmap_t(T) map); // will return NULL if no more elements available
+
+// get node key
+char *llmap_node_key(llmap_node_t *node);
+
+// return *pointer* to node value
+T *llmap_node_val(llmap_t(T) map, llmap_node_t *node);
 ```
 
 ```c
@@ -115,6 +126,16 @@ llmap_set(imap, "key1", 100);
 
 llmap_del(imap, "key1");
 llmap_get(imap, "key1"); // NULL
+
+
+// iterator
+llmap_iter_init(imap);
+llmap_node_t *node;
+
+while ((node = llmap_iter_next(imap))) {
+    char *key = llmap_node_key(node);
+    int val = *llmap_node_val(imap, node);
+}
 
 llmap_free(imap);
 ```

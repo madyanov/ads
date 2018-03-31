@@ -11,7 +11,7 @@ char *llmap_node_key(llmap_node_t *node) {
     return (char *)(node + 1);
 }
 
-void *llmap_node_val(llmap_node_t *node, size_t klen) {
+void *llmap_node_val_(llmap_node_t *node, size_t klen) {
     char *key = llmap_node_key(node);
     return key + (klen ? klen : (strlen(key) + 1));
 }
@@ -25,7 +25,7 @@ llmap_node_t *llmap_node_new(const char *key, void *val, size_t vsize) {
     }
 
     memcpy(llmap_node_key(node), key, klen);
-    memcpy(llmap_node_val(node, klen), val, vsize);
+    memcpy(llmap_node_val_(node, klen), val, vsize);
 
     node->next = NULL;
     node->hash = llmap_hash(key);
@@ -84,7 +84,7 @@ void llmap_add_node(llmap_t *map, llmap_node_t *node) {
 llmap_t *llmap_resize(llmap_t *map) {
     size_t cap = 0;
 
-    // grow, shrink or do nothing
+    // grow, shrink, or do nothing
     if (map->len >= map->cap * llmap_load_factor) {
         cap = map->cap << llmap_resize_bits;
     } else if (map->cap > llmap_init_cap && map->len <= map->cap * llmap_load_factor / (1 << llmap_resize_bits)) {
@@ -130,7 +130,7 @@ int llmap_set_(llmap_t **map, const char *key, void *val, size_t vsize) {
     llmap_node_t **node = llmap_get_node(*map, key);
 
     if (node) {
-        memcpy(llmap_node_val(*node, 0), val, vsize);
+        memcpy(llmap_node_val_(*node, 0), val, vsize);
         return 1;
     }
 
@@ -150,7 +150,7 @@ void *llmap_get_(llmap_t *map, const char *key) {
     llmap_node_t **node = llmap_get_node(map, key);
 
     if (node) {
-        return llmap_node_val(*node, 0);
+        return llmap_node_val_(*node, 0);
     }
 
     return NULL;
@@ -187,3 +187,23 @@ void llmap_free_(llmap_t *map) {
 
 // ==========
 // iterator
+
+llmap_node_t *llmap_iter_next_(llmap_t *map, llmap_iter_t *iter) {
+    if (iter->node && iter->node->next) {
+        iter->node = iter->node->next;
+    } else {
+        llmap_node_t **buckets = llmap_buckets(map);
+
+        do {
+            if (iter->idx >= map->cap) {
+                iter->idx = map->cap;
+                return NULL;
+            }
+            
+            iter->node = buckets[iter->idx];
+            iter->idx++;
+        } while (!iter->node);
+    }
+    
+    return iter->node;
+}

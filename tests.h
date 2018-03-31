@@ -175,6 +175,11 @@ void llmap_tests() {
 
     llmap_del(imap, "k2");
 
+    llmap_iter_init(imap);
+    assert(llmap_iter_next(imap) == NULL);
+    assert(llmap_iter_next(imap) == NULL);
+    assert(llmap_iter_next(imap) == NULL);
+
     for (size_t i = 0; i < llmap_init_cap << llmap_resize_bits; i++) {
         char key[100];
         sprintf(key, "k%zu", i);
@@ -184,6 +189,19 @@ void llmap_tests() {
 
     assert(llmap_len(imap) == llmap_init_cap << llmap_resize_bits);
     assert(llmap_cap(imap) == llmap_init_cap << llmap_resize_bits << llmap_resize_bits);
+
+    llmap_iter_init(imap);
+    llmap_node_t *node = NULL;
+    size_t i = 0;
+    
+    while ((node = llmap_iter_next(imap))) {
+        char *key = llmap_node_key(node);
+        int val = *llmap_node_val(imap, node);
+        assert(*llmap_get(imap, key) == val);
+        i++;
+    }
+
+    assert(llmap_len(imap) == i);
 
     for (size_t i = 0; i < llmap_init_cap << llmap_resize_bits; i++) {
         char key[100];
