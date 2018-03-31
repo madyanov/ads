@@ -49,7 +49,7 @@ void *llmap_node_val_(llmap_node_t *node, size_t klen) {
 
 llmap_node_t *llmap_node_new(const char *key, void *val, size_t vsize) {
     size_t klen = strlen(key);
-    llmap_node_t *node = malloc(sizeof(llmap_node_t) + strlen(key) + vsize);
+    llmap_node_t *node = malloc(sizeof(llmap_node_t) + klen + vsize);
 
     if (!node) {
         return NULL;
