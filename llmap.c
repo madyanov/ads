@@ -195,8 +195,8 @@ llmap_node_t *llmap_iter_next_(llmap_t *map, llmap_iter_t *iter) {
         llmap_node_t **buckets = llmap_buckets(map);
 
         do {
-            if (iter->idx >= map->cap) {
-                iter->idx = map->cap;
+            if (iter->idx >= map->cap - 1) {
+                iter->idx = map->cap - 1;
                 return NULL;
             }
             
