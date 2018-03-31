@@ -47,12 +47,13 @@
 typedef struct llmap_node_t {
     struct llmap_node_t *next;
     uint32_t hash;
-    char key[];
+    char key[1];
 } llmap_node_t;
 
 typedef struct {
     size_t cap;
     size_t len;
+    llmap_node_t *buckets[1];
 } llmap_t;
 
 typedef struct {
