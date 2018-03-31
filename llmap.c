@@ -124,7 +124,7 @@ llmap_t *llmap_resize(llmap_t *map) {
     // grow, shrink, or do nothing
     if (map->len >= map->cap * llmap_load_factor) {
         cap = map->cap << llmap_resize_bits;
-    } else if (map->cap > llmap_init_cap && map->len <= (map->cap << llmap_resize_bits) * llmap_load_factor) {
+    } else if (map->cap > llmap_init_cap && map->len <= (map->cap >> llmap_resize_bits) * llmap_load_factor) {
         cap = map->cap >> llmap_resize_bits;
     } else {
         return map;
