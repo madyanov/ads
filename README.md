@@ -73,6 +73,7 @@ vec_free(str);
 
 * Works with any data type.
 * Grows/shrinks dynamically.
+* Prime numbers based capacity for better buckets distribution.
 
 ```c
 // define map with elements of type T

@@ -70,8 +70,13 @@ void llmap_node_free(llmap_node_t *node) {
 // ==========
 // map
 
+size_t llmap_cap_prime(size_t cap) {
+    size_t prime = log2(cap);
+    return primes[prime];
+}
+
 llmap_t *llmap_new() {
-    llmap_t *map = calloc(1, offsetof(llmap_t, buckets) + sizeof(llmap_node_t *) * llmap_init_cap);
+    llmap_t *map = calloc(1, offsetof(llmap_t, buckets) + sizeof(llmap_node_t *) * llmap_cap_prime(llmap_init_cap));
 
     if (!map) {
         return NULL;
@@ -83,8 +88,7 @@ llmap_t *llmap_new() {
 }
 
 size_t llmap_idx(llmap_t *map, uint32_t hash) {
-    size_t prime = log2(map->cap);
-    return hash % primes[prime];
+    return hash % llmap_cap_prime(map->cap);
 }
 
 llmap_node_t **llmap_get_node(llmap_t *map, const char *key) {
@@ -120,9 +124,10 @@ llmap_t *llmap_resize(llmap_t *map) {
         return map;
     }
 
+    size_t cap_prime = llmap_cap_prime(map->cap);
     llmap_node_t *node, *next, *first = NULL;
 
-    for (size_t i = 0; i < map->cap; i++) {
+    for (size_t i = 0; i < cap_prime; i++) {
         node = map->buckets[i];
 
         while (node) {
@@ -133,13 +138,14 @@ llmap_t *llmap_resize(llmap_t *map) {
         }
     }
 
-    llmap_t *new_map = realloc(map, offsetof(llmap_t, buckets) + sizeof(llmap_node_t *) * cap);
+    cap_prime = llmap_cap_prime(cap);
+    llmap_t *new_map = realloc(map, offsetof(llmap_t, buckets) + sizeof(llmap_node_t *) * cap_prime);
 
     if (!new_map) {
         return NULL;
     }
 
-    memset(new_map->buckets, 0, sizeof(llmap_node_t *) * cap);
+    memset(new_map->buckets, 0, sizeof(llmap_node_t *) * cap_prime);
     new_map->cap = cap;
     node = first;
 
@@ -195,9 +201,10 @@ void llmap_del_(llmap_t **map, const char *key) {
 }
 
 void llmap_free_(llmap_t *map) {
+    size_t cap_prime = llmap_cap_prime(map->cap);
     llmap_node_t *node, *next = NULL;
 
-    for (size_t i = 0; i < map->cap; i++) {
+    for (size_t i = 0; i < cap_prime; i++) {
         node = map->buckets[i];
 
         while (node) {
@@ -217,9 +224,11 @@ llmap_node_t *llmap_iter_next_(llmap_t *map, llmap_iter_t *iter) {
     if (iter->node && iter->node->next) {
         iter->node = iter->node->next;
     } else {
+        size_t cap_prime = llmap_cap_prime(map->cap);
+
         do {
-            if (iter->idx >= map->cap - 1) {
-                iter->idx = map->cap - 1;
+            if (iter->idx >= cap_prime) {
+                iter->idx = cap_prime;
                 return NULL;
             }
             
