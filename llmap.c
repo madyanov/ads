@@ -48,15 +48,15 @@ void *llmap_node_val_(llmap_node_t *node, size_t klen) {
 }
 
 llmap_node_t *llmap_node_new(const char *key, void *val, size_t vsize) {
-    size_t klen = strlen(key) + 1;
-    llmap_node_t *node = malloc(sizeof(llmap_node_t) + klen + vsize);
+    size_t klen = strlen(key);
+    llmap_node_t *node = malloc(sizeof(llmap_node_t) + strlen(key) + vsize);
 
     if (!node) {
         return NULL;
     }
 
-    memcpy(node->key, key, klen);
-    memcpy(llmap_node_val_(node, klen), val, vsize);
+    memcpy(node->key, key, klen + 1);
+    memcpy(llmap_node_val_(node, klen + 1), val, vsize);
 
     node->next = NULL;
     node->hash = llmap_hash(key);
