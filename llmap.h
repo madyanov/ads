@@ -8,9 +8,9 @@
 
 #include "murmur3.h"
 
-#define llmap_load_factor 0.5
-#define llmap_resize_bits 2 // 1 << llmap_resize_bits
-#define llmap_init_cap 5
+#define llmap_load_factor 0.6931 // ln(2)
+#define llmap_resize_bits 1 // 1 << llmap_resize_bits
+#define llmap_init_cap 16
 
 #define llmap_t(T) \
     struct { llmap_t *m; T t; T *p; llmap_iter_t i; }

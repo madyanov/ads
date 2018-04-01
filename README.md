@@ -73,7 +73,6 @@ vec_free(str);
 
 * Works with any data type.
 * Grows/shrinks dynamically.
-* Prime numbers based capacity for better buckets distribution.
 
 ```c
 // define map with elements of type T
@@ -213,6 +212,7 @@ bloom_free(bloom);
 - [x] Rabin–Karp algorithm
 - [x] Bloom filter
 - [x] Hash table using linked lists
+- [ ] Hash table using linear probing
 - [ ] Hash table using search tree
 - [ ] Priority queue using heap
 - [ ] Dijkstra's algorithm

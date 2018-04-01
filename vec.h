@@ -4,8 +4,8 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define vec_resize_bits 2 // 1 << vec_resize_bits
-#define vec_init_cap 32
+#define vec_resize_bits 1 // 1 << vec_resize_bits
+#define vec_init_cap 16
 
 #define vec_init(vec) \
     (vec_init_((void **)&(vec), sizeof *(vec)))

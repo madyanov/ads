@@ -11,7 +11,7 @@ bloom_t *bloom_new(size_t cap, float fpp) {
         return NULL;
     }
 
-    size_t size = cap * -1.4427 * log2(fpp) + 1;
+    size_t size = cap * -1.4427 * log2(fpp) + 1; // 1.4427 == 1/ln(2)
     bits_t *bits = bits_new(size);
 
     if (!bits) {
@@ -21,7 +21,7 @@ bloom_t *bloom_new(size_t cap, float fpp) {
 
     bloom->bits = bits;
     bloom->size = size;
-    bloom->hashes = 0.6931 * size / cap + 1;
+    bloom->hashes = 0.6931 * size / cap + 1; // 0.6931 == ln(2)
     return bloom;
 }
 
