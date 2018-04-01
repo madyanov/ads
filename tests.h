@@ -134,9 +134,9 @@ void rk_tests() {
 }
 
 void bloom_tests() {
-    bloom_t *bloom = bloom_new(10, 0.1);
-    assert(bloom->size == 48);
-    assert(bloom->hashes == 4);
+    size_t size = 10000;
+    float fpp = 0.1;
+    bloom_t *bloom = bloom_new(size, fpp);
 
     bloom_add(bloom, "a", 1);
     assert(bloom_has(bloom, "a", 1) == 1);
@@ -144,6 +144,32 @@ void bloom_tests() {
 
     bloom_add(bloom, "c", 1);
     assert(bloom_has(bloom, "c", 1) == 1);
+
+    for  (size_t i = 0; i < size; i++) {
+        char key[10];
+        sprintf(key, "k%zu", i);
+        bloom_add(bloom, key, strlen(key));
+    }
+
+    size_t exists = 0;
+
+    for  (size_t i = 0; i < size; i++) {
+        char key[10];
+        sprintf(key, "k%zu", i);
+        exists += bloom_has(bloom, key, strlen(key));
+    }
+    
+    assert(exists == size);
+
+    size_t fp = 0;
+
+    for  (size_t i = 0; i < size; i++) {
+        char key[10];
+        sprintf(key, "q%zu", i);
+        fp += bloom_has(bloom, key, strlen(key));
+    }
+
+    assert(fp < size);
 
     bloom_free(bloom);
 }
@@ -181,15 +207,15 @@ void llmap_tests() {
     assert(llmap_iter_next(imap) == NULL);
 
     for (size_t i = 0; i < llmap_init_cap << llmap_resize_bits; i++) {
-        char key[100];
+        char key[5];
         sprintf(key, "k%zu", i);
         llmap_set(imap, key, i);
         assert(*llmap_get(imap, key) == i);
     }
 
-    printf("LLMAP DISTRIBUTION\n");
-    llmap_print_distr(imap);
-    printf("\n");
+    // printf("LLMAP DISTRIBUTION\n");
+    // llmap_print_distr(imap);
+    // printf("\n");
 
     assert(llmap_len(imap) == llmap_init_cap << llmap_resize_bits);
     assert(llmap_cap(imap) == llmap_init_cap << llmap_resize_bits << llmap_resize_bits);
@@ -207,7 +233,7 @@ void llmap_tests() {
     assert(llmap_len(imap) == i);
 
     for (size_t i = 0; i < llmap_init_cap << llmap_resize_bits; i++) {
-        char key[100];
+        char key[10];
         sprintf(key, "k%zu", i);
         llmap_del(imap, key);
         assert(llmap_get(imap, key) == NULL);
