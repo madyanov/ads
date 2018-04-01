@@ -1,13 +1,13 @@
 #include "bits.h"
 
-static const long long_bits = sizeof(bits_t) * CHAR_BIT;
+static const size_t long_bits = sizeof(bits_t) * CHAR_BIT;
 
 bits_t *bits_new(size_t size) {
     if (size < long_bits) {
         size = long_bits;
     }
 
-    return calloc(1, sizeof(bits_t) * size / long_bits);
+    return calloc(1, sizeof(bits_t) * (size / long_bits + 1));
 }
 
 void bits_free(bits_t *bits) {

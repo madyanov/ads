@@ -1,8 +1,5 @@
 #include "llmap.h"
 
-// ==========
-// nodes
-
 uint32_t llmap_hash(const char *key) {
     uint32_t hash = 5381;
 
@@ -12,6 +9,9 @@ uint32_t llmap_hash(const char *key) {
 
     return hash;
 }
+
+// ==========
+// nodes
 
 void *llmap_node_val_(llmap_node_t *node, size_t klen) {
     return node->key + (klen ? klen : (strlen(node->key) + 1));
