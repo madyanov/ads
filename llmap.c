@@ -4,7 +4,13 @@
 // nodes
 
 uint32_t llmap_hash(const char *key) {
-    return murmur3_hash32(key, strlen(key), 0);
+    uint32_t hash = 5381;
+
+    while (*key) {
+        hash = ((hash << 5) + hash) ^ *key++;
+    }
+
+    return hash;
 }
 
 void *llmap_node_val_(llmap_node_t *node, size_t klen) {
@@ -171,6 +177,31 @@ void llmap_free_(llmap_t *map) {
     }
 
     free(map);
+}
+
+void llmap_print_distr_(llmap_t *map) {
+    llmap_node_t *next = NULL;
+    size_t count, collisions = 0;
+
+    printf("bucket\tcount\n");
+
+    for (size_t i = 0; i < map->cap; i++) {
+        next = map->buckets[i];
+        count = 0;
+
+        while (next) {
+            next = next->next;
+            count++;
+        }
+
+        if (count > 1) {
+            collisions++;
+        }
+
+        printf("%zu\t%zu\n", i, count);
+    }
+
+    printf("collisions %zu\n", collisions);
 }
 
 // ==========

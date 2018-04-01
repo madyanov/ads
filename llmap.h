@@ -5,8 +5,7 @@
 #include <string.h>
 #include <math.h>
 #include <stddef.h>
-
-#include "murmur3.h"
+#include <stdio.h>
 
 #define llmap_load_factor 0.6931 // ln(2)
 #define llmap_resize_bits 1 // 1 << llmap_resize_bits
@@ -45,6 +44,9 @@
 #define llmap_node_val(map, node) \
     ((map).p = llmap_node_val_((node), 0))
 
+#define llmap_print_distr(map) \
+    (llmap_print_distr_((map).m))
+
 typedef struct llmap_node_t {
     struct llmap_node_t *next;
     uint32_t hash;
@@ -71,5 +73,6 @@ void llmap_free_(llmap_t *map);
 
 llmap_node_t *llmap_iter_next_(llmap_t *map, llmap_iter_t *iter);
 void *llmap_node_val_(llmap_node_t *node, size_t klen);
+void llmap_print_distr_(llmap_t *map);
 
 #endif

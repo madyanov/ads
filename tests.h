@@ -187,6 +187,10 @@ void llmap_tests() {
         assert(*llmap_get(imap, key) == i);
     }
 
+    printf("LLMAP DISTRIBUTION\n");
+    llmap_print_distr(imap);
+    printf("\n");
+
     assert(llmap_len(imap) == llmap_init_cap << llmap_resize_bits);
     assert(llmap_cap(imap) == llmap_init_cap << llmap_resize_bits << llmap_resize_bits);
 
