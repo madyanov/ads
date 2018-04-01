@@ -56,7 +56,7 @@ size_t llmap_idx(llmap_t *map, uint32_t hash) {
     return hash & (map->cap - 1);
 }
 
-llmap_node_t **llmap_get_node(llmap_t *map, const char *key) {
+llmap_node_t **llmap_node(llmap_t *map, const char *key) {
     uint32_t hash = llmap_hash(key);
     llmap_node_t **node = &map->buckets[llmap_idx(map, hash)];
 
@@ -122,7 +122,7 @@ llmap_t *llmap_resize(llmap_t *map) {
 }
 
 int llmap_set_(llmap_t **map, const char *key, void *val, size_t vsize) {
-    llmap_node_t **node = llmap_get_node(*map, key);
+    llmap_node_t **node = llmap_node(*map, key);
 
     if (node) {
         memcpy(llmap_node_val_(*node, 0), val, vsize);
@@ -142,7 +142,7 @@ int llmap_set_(llmap_t **map, const char *key, void *val, size_t vsize) {
 }
 
 void *llmap_get_(llmap_t *map, const char *key) {
-    llmap_node_t **node = llmap_get_node(map, key);
+    llmap_node_t **node = llmap_node(map, key);
 
     if (node) {
         return llmap_node_val_(*node, 0);
@@ -152,7 +152,7 @@ void *llmap_get_(llmap_t *map, const char *key) {
 }
 
 void llmap_del_(llmap_t **map, const char *key) {
-    llmap_node_t **node = llmap_get_node(*map, key);
+    llmap_node_t **node = llmap_node(*map, key);
 
     if (node) {
         llmap_node_t *next = (*node)->next;
