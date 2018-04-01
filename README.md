@@ -84,13 +84,13 @@ llmap_t(T) map;
 void *llmap_init(llmap_t(T) map); // will return NULL if failed
 
 // set value to the null-terminated key
-int llmap_set(llmap_t(T) map, char *key, void *val); // will return 0 if failed
+int llmap_set(llmap_t(T) map, const char *key, void *val); // will return 0 if failed
 
 // get *pointer* to value in the map
-T *llmap_get(llmap_t(T) map, char *key); // will return NULL if key not exists
+T *llmap_get(llmap_t(T) map, const char *key); // will return NULL if key not exists
 
 // delete element at key
-void llmap_del(llmap_t(T) map, char *key);
+void llmap_del(llmap_t(T) map, const char *key);
 
 // get map length (count of the elements)
 llmap_len(llmap_t(T) map);
