@@ -23,6 +23,7 @@ Simple dynamic array implementation.
 
 * Works with any data type.
 * Grows dynamically.
+* Value semantics.
 
 ```c
 // any pointer type
@@ -73,6 +74,7 @@ vec_free(str);
 
 * Works with any data type.
 * Grows/shrinks dynamically.
+* Value semantics.
 
 ```c
 // define map with elements of type T
