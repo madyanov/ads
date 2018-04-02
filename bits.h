@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include <limits.h>
 
-typedef long bits_t;
+typedef int bits_t;
 
 bits_t *bits_new(size_t size);
 void bits_free(bits_t *bits);

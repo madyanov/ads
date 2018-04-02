@@ -107,3 +107,13 @@ void *lpmap_get_(lpmap_t *map, const char *key, size_t tsize) {
 
     return NULL;
 }
+
+// void lpmap_print_distr_(lpmap_t *map, size_t tsize) {
+//     size_t count, collisions = 0;
+
+//     printf("bucket\tdeleted\tfilled\tprobs\n");
+
+//     for (size_t i = 0; i < map->cap; i++) {
+//         lpmap_node_t *node = lpmap_node_at(map, i, tsize);
+//     }
+// }

@@ -25,6 +25,19 @@ Simple dynamic array implementation.
 * Grows dynamically.
 * Value semantics.
 
+Layout:
+
+```
+    cap = 8
+    len = 4
+    ___ = *
+          |
+          v
+          [ occupied | occupied | occupied | occupied | garbage | garbage | garbage | garbage ]
+```
+
+API:
+
 ```c
 // any pointer type
 T *vec;
@@ -54,6 +67,8 @@ void vec_clear(T *vec);
 void vec_free(T *vec);
 ```
 
+Example:
+
 ```c
 char *str;
 vec_init(str);
@@ -75,6 +90,31 @@ vec_free(str);
 * Works with any data type.
 * Grows/shrinks dynamically.
 * Value semantics.
+
+Layout:
+
+```
+    cap     = 8
+    len     = 4
+    buckets = *
+              |
+              v
+              [ empty | * occupied | empty | empty | * occupied | empty | empty | empty ]
+                        |                            |
+                        v                            v
+                        [ hash = .                   [ hash = .
+                          key  = .                     key  = .
+                          data = .                     data = .
+                          next = * ]                   next = * ]
+                                 |                            |
+                                 v                            v
+                                 [ hash = .                   [ hash = .
+                                   key  = .                     key  = .
+                                   data = .                     data = .
+                                   next = NULL ]                next = NULL ]
+```
+
+API:
 
 ```c
 // define map with elements of type T
@@ -111,6 +151,8 @@ node->key; // char *
 T *llmap_node_val(llmap_t(T) map, llmap_node_t *node);
 ```
 
+Example:
+
 ```c
 llmap_t(int) imap;
 llmap_init(imap);
@@ -137,6 +179,8 @@ llmap_free(imap);
 
 Simple bit map **without bounds checking**.
 
+API:
+
 ```c
 // allocate 1 million zero bits
 bits_t *bits = bits_new(1000000); // will return NULL if allocation failed
@@ -158,10 +202,14 @@ void bits_free(bits_t *bits);
 
 Requires `vec.h`.
 
+API:
+
 ```c
 // search occurrences of pattern in text, occs must be initialized (`vec_init`)
 void rk_search(size_t **occs, const char *text, const char *patt);
 ```
+
+Example:
 
 ```c
 size_t *occs;
@@ -179,6 +227,8 @@ vec_free(occs);
 
 Requires `bits.h`, `murmur3.h`.
 
+API:
+
 ```c
 // create bloom filter to store `cap` elements with false positive probability `fpp`
 bloom_t *bloom_new(size_t cap, float fpp);
@@ -192,6 +242,8 @@ int bloom_has(bloom_t *bloom, const void *key, size_t len); // return 0 if NOT e
 // free memory
 void bloom_free(bloom_t *bloom);
 ```
+
+Example:
 
 ```c
 bloom_t *bloom = bloom_new(10, 0.1);
