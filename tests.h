@@ -12,6 +12,7 @@
 #include "rk.h"
 #include "bloom.h"
 #include "llmap.h"
+#include "lpmap.h"
 
 typedef struct {
     int x;
@@ -243,6 +244,22 @@ void llmap_tests() {
     assert(llmap_cap(imap) == llmap_init_cap);
 
     llmap_free(imap);
+}
+
+void lpmap_tests() {
+    lpmap_t(int) imap;
+    lpmap_init(imap);
+    assert(lpmap_len(imap) == 0);
+    assert(lpmap_cap(imap) == lpmap_init_cap);
+
+    lpmap_set(imap, "k1", 10);
+    lpmap_set(imap, "k2", 20);
+    assert(lpmap_len(imap) == 2);
+    assert(*lpmap_get(imap, "k1") == 10);
+    assert(*lpmap_get(imap, "k2") == 20);
+    assert(lpmap_get(imap, "k3") == NULL);
+
+    lpmap_free(imap);
 }
 
 #endif

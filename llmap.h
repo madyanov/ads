@@ -6,7 +6,7 @@
 #include <stddef.h>
 #include <stdio.h>
 
-#define llmap_load_factor 0.6931 // ln(2)
+#define llmap_load_factor 0.6
 #define llmap_resize_bits 1 // 1 << llmap_resize_bits
 #define llmap_init_cap 16
 
