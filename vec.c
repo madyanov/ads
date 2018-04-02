@@ -40,12 +40,16 @@ int vec_init_(void **vec, size_t tsize) {
 
 int vec_resize_(void **vec, size_t tsize) {
     vec_head_t *head = vec_head_(*vec);
+    size_t cap = 0;
 
-    if (head->len < head->cap) {
+    if (head->len >= head->cap) {
+        cap = head->cap << vec_resize_bits;
+    } else if (head->cap > vec_init_cap && head->len < head->cap >> vec_resize_bits) {
+        cap = head->cap >> vec_resize_bits;
+    } else {
         return 1;
     }
     
-    size_t cap = head->cap << vec_resize_bits;
     void *new_head = realloc(head, sizeof(vec_head_t) + tsize * cap);
 
     if (!new_head) {
@@ -57,4 +61,9 @@ int vec_resize_(void **vec, size_t tsize) {
 
     *vec = head + 1;
     return 1;
+}
+
+int vec_pop_(void **vec, size_t tsize) {
+    vec_head_(*vec)->len--;
+    return vec_resize_(vec, tsize);
 }

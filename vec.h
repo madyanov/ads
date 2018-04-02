@@ -19,7 +19,7 @@
     ((vec)[vec_len(vec) - 1])
 
 #define vec_pop(vec) \
-    ((vec)[--vec_head_(vec)->len])
+    (vec_pop_((void **)&(vec), sizeof *(vec)), (vec)[vec_len(vec)])
 
 void vec_free(void *vec);
 size_t vec_cap(void *vec);
@@ -34,5 +34,6 @@ typedef struct {
 vec_head_t *vec_head_(void *vec);
 int vec_init_(void **vec, size_t tsize);
 int vec_resize_(void **vec, size_t tsize);
+int vec_pop_(void **vec, size_t tsize);
 
 #endif

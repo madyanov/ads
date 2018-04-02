@@ -51,6 +51,14 @@ void vec_tests() {
     }
 
     assert(vec_cap(vec) == vec_init_cap << vec_resize_bits);
+    size_t len = vec_len(vec);
+
+    for (size_t i = 0; i < len; i++) {
+        vec_pop(vec);
+    }
+
+    assert(vec_cap(vec) == vec_init_cap);
+    assert(vec_len(vec) == 0);
 
     vec_free(vec);
 

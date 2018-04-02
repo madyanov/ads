@@ -22,7 +22,7 @@ $ cmake . && make && ./ads
 Simple dynamic array implementation.
 
 * Works with any data type.
-* Grows dynamically.
+* Grows/shrinks dynamically.
 * Value semantics.
 
 Layout:
