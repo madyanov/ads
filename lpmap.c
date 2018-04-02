@@ -101,11 +101,17 @@ int lpmap_set_(lpmap_t **map, const char *key, void *val, size_t tsize) {
 void *lpmap_get_(lpmap_t *map, const char *key, size_t tsize) {
     lpmap_node_t *node = lpmap_node(map, key, tsize, 0);
 
-    if (!lpmap_node_free(node)) {
-        return node->val;
+    if (!node || lpmap_node_free(node)) {
+        return NULL;
     }
+    
+    return node->val;
+}
 
-    return NULL;
+int lpmap_del_(lpmap_t **map, const char *key, size_t tsize) {
+    lpmap_node(*map, key, tsize, 0)->key[0] = '\0';
+    (*map)->len--;
+    return 1;
 }
 
 // void lpmap_print_distr_(lpmap_t *map, size_t tsize) {

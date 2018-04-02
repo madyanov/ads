@@ -22,6 +22,9 @@
 
 #define lpmap_get(map, key) \
     ((map).p = lpmap_get_((map).m, (key), sizeof (map).t))
+
+#define lpmap_del(map, key) \
+    (lpmap_del_(&(map).m, (key), sizeof (map).t))
     
 #define lpmap_free(map) \
     (free((map).m))
@@ -48,5 +51,6 @@ typedef struct {
 lpmap_t *lpmap_new(size_t tsize);
 int lpmap_set_(lpmap_t **map, const char *key, void *val, size_t tsize);
 void *lpmap_get_(lpmap_t *map, const char *key, size_t tsize);
+int lpmap_del_(lpmap_t **map, const char *key, size_t tsize);
 
 #endif

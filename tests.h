@@ -273,6 +273,13 @@ void lpmap_tests() {
     assert(*lpmap_get(imap, "k2") == 20);
     assert(lpmap_get(imap, "k3") == NULL);
 
+    lpmap_del(imap, "k1");
+    lpmap_del(imap, "k2");
+    assert(lpmap_len(imap) == 0);
+    assert(lpmap_get(imap, "k1") == NULL);
+    assert(lpmap_get(imap, "k2") == NULL);
+    assert(lpmap_get(imap, "k3") == NULL);
+
     lpmap_free(imap);
 }
 
