@@ -77,22 +77,21 @@ void llmap_add_node(llmap_t *map, llmap_node_t *node) {
     map->buckets[idx] = node;
 }
 
-llmap_t *llmap_resize(llmap_t *map) {
+int llmap_resize(llmap_t **map) {
     size_t cap = 0;
 
-    // grow, shrink, or do nothing
-    if (map->len >= map->cap * llmap_load_factor) {
-        cap = map->cap << llmap_resize_bits;
-    } else if (map->cap > llmap_init_cap && map->len <= (map->cap >> llmap_resize_bits) * llmap_load_factor) {
-        cap = map->cap >> llmap_resize_bits;
+    if ((*map)->len >= (*map)->cap * llmap_load_factor) {
+        cap = (*map)->cap << llmap_resize_bits;
+    } else if ((*map)->cap > llmap_init_cap && (*map)->len <= ((*map)->cap >> llmap_resize_bits) * llmap_load_factor) {
+        cap = (*map)->cap >> llmap_resize_bits;
     } else {
-        return map;
+        return 1;
     }
 
     llmap_node_t *node, *next, *first = NULL;
 
-    for (size_t i = 0; i < map->cap; i++) {
-        node = map->buckets[i];
+    for (size_t i = 0; i < (*map)->cap; i++) {
+        node = (*map)->buckets[i];
 
         while (node) {
             next = node->next;
@@ -102,10 +101,10 @@ llmap_t *llmap_resize(llmap_t *map) {
         }
     }
 
-    llmap_t *new_map = realloc(map, offsetof(llmap_t, buckets) + sizeof(llmap_node_t *) * cap);
+    llmap_t *new_map = realloc(*map, offsetof(llmap_t, buckets) + sizeof(llmap_node_t *) * cap);
 
     if (!new_map) {
-        return NULL;
+        return 0;
     }
 
     memset(new_map->buckets, 0, sizeof(llmap_node_t *) * cap);
@@ -118,7 +117,8 @@ llmap_t *llmap_resize(llmap_t *map) {
         node = next;
     }
 
-    return new_map;
+    *map = new_map;
+    return 1;
 }
 
 int llmap_set_(llmap_t **map, const char *key, void *val, size_t vsize) {
@@ -135,7 +135,7 @@ int llmap_set_(llmap_t **map, const char *key, void *val, size_t vsize) {
         return 0;
     }
 
-    *map = llmap_resize(*map);
+    llmap_resize(map);
     llmap_add_node(*map, new_node);
     (*map)->len++;
     return 1;
@@ -159,7 +159,7 @@ void llmap_del_(llmap_t **map, const char *key) {
         llmap_node_free(*node);
         *node = next;
         (*map)->len--;
-        *map = llmap_resize(*map);
+        llmap_resize(map);
     }
 }
 
