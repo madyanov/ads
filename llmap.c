@@ -213,7 +213,6 @@ llmap_node_t *llmap_iter_next_(llmap_t *map, llmap_iter_t *iter) {
     } else {
         do {
             if (iter->idx >= map->cap) {
-                iter->idx = map->cap;
                 return NULL;
             }
             

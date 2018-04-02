@@ -70,7 +70,7 @@ lpmap_node_t *lpmap_node(lpmap_t *map, const char *key, size_t tsize, int delete
             return node;
         }
 
-        if (!lpmap_node_deleted(node) && node->hash == hash && strncmp(key, node->key, lpmap_key_len) == 0) {
+        if (node->hash == hash && strncmp(key, node->key, lpmap_key_len) == 0) {
             return node;
         }
     }
@@ -85,16 +85,14 @@ int lpmap_set_(lpmap_t **map, const char *key, void *val, size_t tsize) {
         return 0;
     }
 
-    if (!lpmap_node_free(node)) {
-        memcpy(node->val, val, tsize);
-        return 1;
+    if (lpmap_node_free(node)) {
+        node->hash = lpmap_hash(key);
+        node->tsize = tsize;
+        (*map)->len++;
     }
 
-    node->hash = lpmap_hash(key);
-    node->tsize = tsize;
     memcpy(node->key, key, lpmap_key_len);
     memcpy(node->val, val, tsize);
-    (*map)->len++;
     return 1;
 }
 
