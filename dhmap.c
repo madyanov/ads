@@ -57,7 +57,7 @@ dhmap_node_t *dhmap_node_at(dhmap_t *map, size_t idx, size_t tsize) {
     return (dhmap_node_t *)((char *)(map->buckets + idx) + idx * tsize);
 }
 
-dhmap_node_t *dhmap_node(dhmap_t *map, const char *key, size_t tsize) {
+dhmap_node_t *dhmap_node(dhmap_t *map, const char *key, size_t tsize, int deleted) {
     uint32_t hash = dhmap_hash1(key);
     size_t idx = dhmap_mod(map, hash);
     size_t step = dhmap_mod(map, dhmap_hash2(key));
@@ -67,6 +67,10 @@ dhmap_node_t *dhmap_node(dhmap_t *map, const char *key, size_t tsize) {
         node = dhmap_node_at(map, idx, tsize);
 
         if (node->state == empty) {
+            return node;
+        }
+
+        if (deleted && node->state == deleted) {
             return node;
         }
 
@@ -81,19 +85,18 @@ dhmap_node_t *dhmap_node(dhmap_t *map, const char *key, size_t tsize) {
 }
 
 int dhmap_set_(dhmap_t **map, const char *key, void *val, size_t tsize) {
-    uint32_t hash = dhmap_hash1(key);
-    dhmap_node_t *node = dhmap_node(*map, key, tsize);
+    dhmap_node_t *node = dhmap_node(*map, key, tsize, 1);
 
     if (node->state != filled) {
         (*map)->len++;
     }
 
-    dhmap_node_set(node, hash, key, val, tsize);
+    dhmap_node_set(node, dhmap_hash1(key), key, val, tsize);
     return 1;
 }
 
 void *dhmap_get_(dhmap_t *map, const char *key, size_t tsize) {
-    dhmap_node_t *node = dhmap_node(map, key, tsize);
+    dhmap_node_t *node = dhmap_node(map, key, tsize, 0);
 
     if (node && node->state == filled) {
         return node->val;
@@ -103,8 +106,8 @@ void *dhmap_get_(dhmap_t *map, const char *key, size_t tsize) {
 }
 
 int dhmap_del_(dhmap_t **map, const char *key, size_t tsize) {
-    dhmap_node_t *node = dhmap_node(*map, key, tsize);
-    
+    dhmap_node_t *node = dhmap_node(*map, key, tsize, 0);
+
     if (node && node->state == filled) {
         node->state = deleted;
         (*map)->len--;
