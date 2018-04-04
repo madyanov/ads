@@ -12,7 +12,7 @@
 #include "rk.h"
 #include "bloom.h"
 #include "llmap.h"
-#include "lpmap.h"
+#include "dhmap.h"
 
 typedef struct {
     int x;
@@ -209,6 +209,12 @@ void llmap_tests() {
     assert(llmap_get(imap, "k3") == NULL);
 
     llmap_del(imap, "k2");
+    assert(llmap_len(imap) == 0);
+    assert(llmap_get(imap, "k2") == NULL);
+    llmap_set(imap, "k2", 40);
+    assert(llmap_len(imap) == 1);
+    assert(*llmap_get(imap, "k2") == 40);
+    llmap_del(imap, "k2");
 
     llmap_iter_init(imap);
     assert(llmap_iter_next(imap) == NULL);
@@ -254,33 +260,81 @@ void llmap_tests() {
     llmap_free(imap);
 }
 
-void lpmap_tests() {
-    lpmap_t(int) imap;
-    lpmap_init(imap);
-    assert(lpmap_len(imap) == 0);
-    assert(lpmap_cap(imap) == lpmap_init_cap);
+void dhmap_tests() {
+    dhmap_t(int) imap;
+    dhmap_init(imap);
 
-    lpmap_set(imap, "k1", 10);
-    lpmap_set(imap, "k2", 20);
-    assert(lpmap_len(imap) == 2);
-    assert(*lpmap_get(imap, "k1") == 10);
-    assert(*lpmap_get(imap, "k2") == 20);
-    assert(lpmap_get(imap, "k3") == NULL);
+    assert(dhmap_cap(imap) == dhmap_init_cap);
+    assert(dhmap_len(imap) == 0);
 
-    lpmap_set(imap, "k1", 30);
-    assert(lpmap_len(imap) == 2);
-    assert(*lpmap_get(imap, "k1") == 30);
-    assert(*lpmap_get(imap, "k2") == 20);
-    assert(lpmap_get(imap, "k3") == NULL);
+    dhmap_set(imap, "k1", 10);
+    dhmap_set(imap, "k2", 20);
+    assert(dhmap_len(imap) == 2);
+    assert(*dhmap_get(imap, "k1") == 10);
+    assert(*dhmap_get(imap, "k2") == 20);
+    assert(dhmap_get(imap, "k3") == NULL);
 
-    lpmap_del(imap, "k1");
-    lpmap_del(imap, "k2");
-    assert(lpmap_len(imap) == 0);
-    assert(lpmap_get(imap, "k1") == NULL);
-    assert(lpmap_get(imap, "k2") == NULL);
-    assert(lpmap_get(imap, "k3") == NULL);
+    dhmap_set(imap, "k2", 30);
+    assert(dhmap_len(imap) == 2);
+    assert(*dhmap_get(imap, "k2") == 30);
 
-    lpmap_free(imap);
+    dhmap_del(imap, "k1");
+    dhmap_del(imap, "k3");
+    assert(dhmap_len(imap) == 1);
+    assert(dhmap_get(imap, "k1") == NULL);
+    assert(*dhmap_get(imap, "k2") == 30);
+    assert(dhmap_get(imap, "k3") == NULL);
+
+    dhmap_del(imap, "k2");
+    assert(dhmap_len(imap) == 0);
+    assert(dhmap_get(imap, "k2") == NULL);
+    dhmap_set(imap, "k2", 40);
+    assert(dhmap_len(imap) == 1);
+    assert(*dhmap_get(imap, "k2") == 40);
+    dhmap_del(imap, "k2");
+
+    // dhmap_iter_init(imap);
+    // assert(dhmap_iter_next(imap) == NULL);
+    // assert(dhmap_iter_next(imap) == NULL);
+    // assert(dhmap_iter_next(imap) == NULL);
+
+    // for (size_t i = 0; i < dhmap_init_cap << dhmap_resize_bits; i++) {
+    //     char key[5];
+    //     sprintf(key, "k%zu", i);
+    //     dhmap_set(imap, key, i);
+    //     assert(*dhmap_get(imap, key) == i);
+    // }
+
+    // // printf("dhmap DISTRIBUTION\n");
+    // // dhmap_print_distr(imap);
+    // // printf("\n");
+
+    // assert(dhmap_len(imap) == dhmap_init_cap << dhmap_resize_bits);
+    // assert(dhmap_cap(imap) == dhmap_init_cap << dhmap_resize_bits << dhmap_resize_bits);
+
+    // dhmap_iter_init(imap);
+    // dhmap_node_t *node = NULL;
+    // size_t i = 0;
+    
+    // while ((node = dhmap_iter_next(imap))) {
+    //     int val = *dhmap_node_val(imap, node);
+    //     assert(*dhmap_get(imap, node->key) == val);
+    //     i++;
+    // }
+
+    // assert(dhmap_len(imap) == i);
+
+    // for (size_t i = 0; i < dhmap_init_cap << dhmap_resize_bits; i++) {
+    //     char key[10];
+    //     sprintf(key, "k%zu", i);
+    //     dhmap_del(imap, key);
+    //     assert(dhmap_get(imap, key) == NULL);
+    // }
+
+    // assert(dhmap_len(imap) == 0);
+    // assert(dhmap_cap(imap) == dhmap_init_cap);
+
+    dhmap_free(imap);
 }
 
 #endif

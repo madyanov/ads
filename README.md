@@ -175,6 +175,10 @@ while ((node = llmap_iter_next(imap))) {
 llmap_free(imap);
 ```
 
+Further optimization:
+
+* Allocate memory for linked list by blocks with N nodes.
+
 ## Bit map (`bits.h`)
 
 Simple bit map **without bounds checking**.
@@ -265,8 +269,8 @@ bloom_free(bloom);
 - [x] Bit array
 - [x] Rabin–Karp algorithm
 - [x] Bloom filter
-- [x] Hash table using linked lists
-- [ ] Hash table using linear probing
+- [x] Hash table using chaining
+- [ ] Hash table using open addressing
 - [ ] Hash table using search tree
 - [ ] Priority queue using heap
 - [ ] Dijkstra's algorithm

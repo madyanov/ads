@@ -9,7 +9,7 @@ int main() {
     rk_tests();
     bloom_tests();
     llmap_tests();
-    lpmap_tests();
+    dhmap_tests();
 
     printf("\nOK.\n");
     return 0;
