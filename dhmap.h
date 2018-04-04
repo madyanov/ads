@@ -36,9 +36,9 @@
     ((map).m->len)
 
 typedef enum {
-    empty,
-    filled,
-    deleted
+    dhmap_empty,
+    dhmap_filled,
+    dhmap_deleted
 } dhmap_node_state_t;
 
 typedef struct {
