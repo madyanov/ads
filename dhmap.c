@@ -21,16 +21,6 @@ uint32_t dhmap_hash2(const char *key) {
 }
 
 // ==========
-// nodes
-
-void dhmap_node_set(dhmap_node_t *node, uint32_t hash, const char *key, void *val, size_t tsize) {
-    node->state = dhmap_filled;
-    node->hash = hash;
-    memcpy(node->key, key, dhmap_key_len);
-    memcpy(node->val, val, tsize);
-}
-
-// ==========
 // map
 
 dhmap_t *dhmap_new(size_t cap, size_t tsize) {
