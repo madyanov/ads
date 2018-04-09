@@ -12,7 +12,7 @@
 #define dhmap_key_len 32
 
 #define dhmap_t(T) \
-    struct { dhmap_t *m; T t; T *p; }
+    struct { dhmap_t *m; T t; T *p; dhmap_iter_t i; }
 
 #define dhmap_init(map) \
     ((map).m = dhmap_new(dhmap_init_cap, sizeof (map).t))
@@ -28,6 +28,15 @@
     
 #define dhmap_free(map) \
     (dhmap_free_((map).m))
+
+#define dhmap_iter_init(map) \
+    (memset(&(map).i, 0, sizeof (map).i))
+
+#define dhmap_iter_next(map) \
+    (dhmap_iter_next_((map).m, &(map).i, sizeof (map).t))
+
+#define dhmap_node_val(node) \
+    ((map).p = (node)->val)
 
 #define dhmap_cap(map) \
     ((map).m->cap)
@@ -54,11 +63,16 @@ typedef struct {
     dhmap_node_t buckets[];
 } dhmap_t;
 
+typedef struct {
+    size_t idx;
+} dhmap_iter_t;
+
 dhmap_t *dhmap_new(size_t cap, size_t tsize);
 
 void dhmap_free_(dhmap_t *map);
 int dhmap_set_(dhmap_t **map, const char *key, void *val, size_t tsize);
 void *dhmap_get_(dhmap_t *map, const char *key, size_t tsize);
 int dhmap_del_(dhmap_t **map, const char *key, size_t tsize);
+dhmap_node_t *dhmap_iter_next_(dhmap_t *map, dhmap_iter_t *iter, size_t tsize);
 
 #endif

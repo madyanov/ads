@@ -115,3 +115,21 @@ int dhmap_del_(dhmap_t **map, const char *key, size_t tsize) {
 
     return 1;
 }
+
+// ==========
+// iterator
+
+dhmap_node_t *dhmap_iter_next_(dhmap_t *map, dhmap_iter_t *iter, size_t tsize) {
+    dhmap_node_t *node = NULL;
+
+    do {
+        if (iter->idx >= map->cap) {
+            return NULL;
+        }
+        
+        node = dhmap_node_at(map, iter->idx, tsize);
+        iter->idx++;
+    } while (node->state != dhmap_filled);
+
+    return node;
+}

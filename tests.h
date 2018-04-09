@@ -293,10 +293,10 @@ void dhmap_tests() {
     assert(*dhmap_get(imap, "k2") == 40);
     dhmap_del(imap, "k2");
 
-    // dhmap_iter_init(imap);
-    // assert(dhmap_iter_next(imap) == NULL);
-    // assert(dhmap_iter_next(imap) == NULL);
-    // assert(dhmap_iter_next(imap) == NULL);
+    dhmap_iter_init(imap);
+    assert(dhmap_iter_next(imap) == NULL);
+    assert(dhmap_iter_next(imap) == NULL);
+    assert(dhmap_iter_next(imap) == NULL);
 
     // for (size_t i = 0; i < dhmap_init_cap << dhmap_resize_bits; i++) {
     //     char key[5];
