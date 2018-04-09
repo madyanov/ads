@@ -35,8 +35,8 @@
 #define dhmap_iter_next(map) \
     (dhmap_iter_next_((map).m, &(map).i, sizeof (map).t))
 
-#define dhmap_node_val(node) \
-    ((map).p = (node)->val)
+#define dhmap_node_val(map, node) \
+    ((map).p = (void *)(node)->val)
 
 #define dhmap_cap(map) \
     ((map).m->cap)
@@ -72,7 +72,7 @@ dhmap_t *dhmap_new(size_t cap, size_t tsize);
 void dhmap_free_(dhmap_t *map);
 int dhmap_set_(dhmap_t **map, const char *key, void *val, size_t tsize);
 void *dhmap_get_(dhmap_t *map, const char *key, size_t tsize);
-int dhmap_del_(dhmap_t **map, const char *key, size_t tsize);
+void dhmap_del_(dhmap_t **map, const char *key, size_t tsize);
 dhmap_node_t *dhmap_iter_next_(dhmap_t *map, dhmap_iter_t *iter, size_t tsize);
 
 #endif

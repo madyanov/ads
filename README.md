@@ -12,6 +12,7 @@ $ cmake . && make && ./ads
 
 * [Vector](#vector-vech)
 * [Linked list based hash map](#linked-list-based-hash-map-llmaph)
+* [Double hashing based hash map](#double-hashing-based-hash-map-dhmaph)
 * [Bit map](#bit-map-bitsh)
 * [Rabin-Karp algorithm](#rabin-karp-string-searching-algorithm-rkh)
 * [Bloom filter](#bloom-filter-bloomh)
@@ -67,7 +68,7 @@ void vec_clear(T *vec);
 void vec_free(T *vec);
 ```
 
-Example:
+Usage:
 
 ```c
 char *str;
@@ -151,7 +152,7 @@ node->key; // char *
 T *llmap_node_val(llmap_t(T) map, llmap_node_t *node);
 ```
 
-Example:
+Usage:
 
 ```c
 llmap_t(int) imap;
@@ -178,6 +179,30 @@ llmap_free(imap);
 Further optimization:
 
 * Allocate memory for linked list by blocks with N nodes.
+
+## Double hashing based hash map (`dhmap.h`)
+
+* Works with any data type.
+* Grows/shrinks dynamically.
+* Value semantics.
+
+Layout:
+
+```
+    cap     = 8
+    len     = 3
+    buckets = *
+              |
+              v
+              [ empty | occupied | empty | occupied | empty | occupied | empty | empty ]
+                        state = .          state = .          state = .
+                        hash  = .          hash  = .          hash  = .
+                        key   = .          key   = .          key   = .
+                        value = .          value = .          value = .
+
+```
+
+API & Usage: Same as linked list based hash map above, but functions prefixed with `dhmap_` instead of `llmap_`.
 
 ## Bit map (`bits.h`)
 
@@ -213,7 +238,7 @@ API:
 void rk_search(size_t **occs, const char *text, const char *patt);
 ```
 
-Example:
+Usage:
 
 ```c
 size_t *occs;
@@ -247,7 +272,7 @@ int bloom_has(bloom_t *bloom, const void *key, size_t len); // return 0 if NOT e
 void bloom_free(bloom_t *bloom);
 ```
 
-Example:
+Usage:
 
 ```c
 bloom_t *bloom = bloom_new(10, 0.1);
@@ -270,7 +295,7 @@ bloom_free(bloom);
 - [x] Rabin–Karp algorithm
 - [x] Bloom filter
 - [x] Hash table using chaining
-- [ ] Hash table using open addressing
+- [x] Hash table using open addressing
 - [ ] Hash table using search tree
 - [ ] Priority queue using heap
 - [ ] Dijkstra's algorithm

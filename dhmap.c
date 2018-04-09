@@ -84,15 +84,59 @@ dhmap_node_t *dhmap_node(dhmap_t *map, const char *key, size_t tsize, int delete
     return NULL;
 }
 
-int dhmap_set_(dhmap_t **map, const char *key, void *val, size_t tsize) {
-    dhmap_node_t *node = dhmap_node(*map, key, tsize, 1);
+void dhmap_add(dhmap_t *map, uint32_t hash, const char *key, void *val, size_t tsize) {
+    dhmap_node_t *node = dhmap_node(map, key, tsize, 1);
 
     if (node->state != dhmap_filled) {
-        (*map)->len++;
+        map->len++;
     }
 
-    dhmap_node_set(node, dhmap_hash1(key), key, val, tsize);
+    node->state = dhmap_filled;
+    node->hash = hash;
+    memcpy(node->key, key, dhmap_key_len);
+    memcpy(node->val, val, tsize);
+}
+
+int dhmap_resize(dhmap_t **map, size_t tsize) {
+    size_t cap = 0;
+
+    if ((*map)->len >= (*map)->cap * dhmap_load_factor) {
+        cap = (*map)->cap << dhmap_resize_bits;
+    } else if ((*map)->cap > dhmap_init_cap && (*map)->len <= ((*map)->cap >> dhmap_resize_bits) * dhmap_load_factor) {
+        cap = (*map)->cap >> dhmap_resize_bits;
+    } else {
+        return 1;
+    }
+
+    dhmap_t *new_map = dhmap_new(cap, tsize);
+
+    if (!new_map) {
+        return 0;
+    }
+
+    dhmap_node_t *node = NULL;
+
+    for (size_t i = 0; i < (*map)->cap; i++) {
+        node = dhmap_node_at(*map, i, tsize);
+
+        if (node->state == dhmap_filled) {
+            dhmap_add(new_map, node->hash, node->key, node->val, tsize);
+        }
+    }
+
+    dhmap_free_(*map);
+
+    *map = new_map;
     return 1;
+}
+
+int dhmap_set_(dhmap_t **map, const char *key, void *val, size_t tsize) {
+    if (dhmap_resize(map, tsize)) {
+        dhmap_add(*map, dhmap_hash1(key), key, val, tsize);
+        return 1;
+    }
+
+    return 0;
 }
 
 void *dhmap_get_(dhmap_t *map, const char *key, size_t tsize) {
@@ -105,15 +149,14 @@ void *dhmap_get_(dhmap_t *map, const char *key, size_t tsize) {
     return NULL;
 }
 
-int dhmap_del_(dhmap_t **map, const char *key, size_t tsize) {
+void dhmap_del_(dhmap_t **map, const char *key, size_t tsize) {
     dhmap_node_t *node = dhmap_node(*map, key, tsize, 0);
 
     if (node && node->state == dhmap_filled) {
         node->state = dhmap_deleted;
         (*map)->len--;
+        dhmap_resize(map, tsize);
     }
-
-    return 1;
 }
 
 // ==========

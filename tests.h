@@ -298,41 +298,41 @@ void dhmap_tests() {
     assert(dhmap_iter_next(imap) == NULL);
     assert(dhmap_iter_next(imap) == NULL);
 
-    // for (size_t i = 0; i < dhmap_init_cap << dhmap_resize_bits; i++) {
-    //     char key[5];
-    //     sprintf(key, "k%zu", i);
-    //     dhmap_set(imap, key, i);
-    //     assert(*dhmap_get(imap, key) == i);
-    // }
+    for (size_t i = 0; i < dhmap_init_cap << dhmap_resize_bits; i++) {
+        char key[5];
+        sprintf(key, "k%zu", i);
+        dhmap_set(imap, key, i);
+        assert(*dhmap_get(imap, key) == i);
+    }
 
-    // // printf("dhmap DISTRIBUTION\n");
-    // // dhmap_print_distr(imap);
-    // // printf("\n");
+    // printf("dhmap DISTRIBUTION\n");
+    // dhmap_print_distr(imap);
+    // printf("\n");
 
-    // assert(dhmap_len(imap) == dhmap_init_cap << dhmap_resize_bits);
-    // assert(dhmap_cap(imap) == dhmap_init_cap << dhmap_resize_bits << dhmap_resize_bits);
+    assert(dhmap_len(imap) == dhmap_init_cap << dhmap_resize_bits);
+    assert(dhmap_cap(imap) == dhmap_init_cap << dhmap_resize_bits << dhmap_resize_bits);
 
-    // dhmap_iter_init(imap);
-    // dhmap_node_t *node = NULL;
-    // size_t i = 0;
+    dhmap_iter_init(imap);
+    dhmap_node_t *node = NULL;
+    size_t i = 0;
     
-    // while ((node = dhmap_iter_next(imap))) {
-    //     int val = *dhmap_node_val(imap, node);
-    //     assert(*dhmap_get(imap, node->key) == val);
-    //     i++;
-    // }
+    while ((node = dhmap_iter_next(imap))) {
+        int val = *dhmap_node_val(imap, node);
+        assert(*dhmap_get(imap, node->key) == val);
+        i++;
+    }
 
-    // assert(dhmap_len(imap) == i);
+    assert(dhmap_len(imap) == i);
 
-    // for (size_t i = 0; i < dhmap_init_cap << dhmap_resize_bits; i++) {
-    //     char key[10];
-    //     sprintf(key, "k%zu", i);
-    //     dhmap_del(imap, key);
-    //     assert(dhmap_get(imap, key) == NULL);
-    // }
+    for (size_t i = 0; i < dhmap_init_cap << dhmap_resize_bits; i++) {
+        char key[10];
+        sprintf(key, "k%zu", i);
+        dhmap_del(imap, key);
+        assert(dhmap_get(imap, key) == NULL);
+    }
 
-    // assert(dhmap_len(imap) == 0);
-    // assert(dhmap_cap(imap) == dhmap_init_cap);
+    assert(dhmap_len(imap) == 0);
+    assert(dhmap_cap(imap) == dhmap_init_cap);
 
     dhmap_free(imap);
 }
