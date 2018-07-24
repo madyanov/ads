@@ -1,5 +1,5 @@
-#ifndef TEST_H
-#define TEST_H
+#ifndef TESTS_H
+#define TESTS_H
 
 #include <stdlib.h>
 #include <assert.h>
@@ -107,7 +107,6 @@ void bits_tests() {
 
 void rk_tests() {
     char *text = "XXXXAXXXXB";
-    unsigned long prime = 453126437;
 
     size_t *occs;
     vec_init(occs);
