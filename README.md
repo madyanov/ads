@@ -26,7 +26,7 @@ Simple dynamic array implementation.
 * Grows/shrinks dynamically.
 * Value semantics.
 
-Layout:
+Memory Layout:
 
 ```
     cap = 8
@@ -37,7 +37,7 @@ Layout:
           [ occupied | occupied | occupied | occupied | garbage | garbage | garbage | garbage ]
 ```
 
-API:
+Interface:
 
 ```c
 // any pointer type
@@ -92,7 +92,7 @@ vec_free(str);
 * Grows/shrinks dynamically.
 * Value semantics.
 
-Layout:
+Memory Layout:
 
 ```
     cap     = 8
@@ -115,7 +115,7 @@ Layout:
                                    next = NULL ]                next = NULL ]
 ```
 
-API:
+Interface:
 
 ```c
 // define map with elements of type T
@@ -186,7 +186,7 @@ Further optimization:
 * Grows/shrinks dynamically.
 * Value semantics.
 
-Layout:
+Memory Layout:
 
 ```
     cap     = 8
@@ -208,7 +208,7 @@ API & Usage: Same as linked list based hash map above, but functions prefixed wi
 
 Simple bit map **without bounds checking**.
 
-API:
+Interface:
 
 ```c
 // allocate 1 million zero bits
@@ -231,7 +231,7 @@ void bits_free(bits_t *bits);
 
 Requires `vec.h`.
 
-API:
+Interface:
 
 ```c
 // search occurrences of pattern in text, occs must be initialized (`vec_init`)
@@ -256,7 +256,7 @@ vec_free(occs);
 
 Requires `bits.h`, `murmur3.h`.
 
-API:
+Interface:
 
 ```c
 // create bloom filter to store `cap` elements with false positive probability `fpp`
